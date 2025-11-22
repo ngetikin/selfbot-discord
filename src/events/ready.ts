@@ -10,10 +10,10 @@ export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx
       guild: env.TARGET_GUILD_ID,
       voiceChannel: env.VOICE_CHANNEL_ID,
     });
-    // placeholder: will hook voice auto-join/scheduler here in v0.4+
     logger.debug('Context ready', {
       schedulerTasks: ctx.scheduler.snapshot().length,
       storageKeys: ctx.storage.listKeys(),
     });
+    void ctx.voice.join(env.VOICE_CHANNEL_ID);
   });
 };

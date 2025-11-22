@@ -86,6 +86,7 @@ Buat `.env` (opsional override di `.env.local`):
 ```
 TOKEN=
 VOICE_CHANNEL_ID=
+VOICE_TEXT_CHANNEL_ID=
 TARGET_GUILD_ID=
 ADMIN_ROLE_IDS=
 TTS_LANG=id-ID

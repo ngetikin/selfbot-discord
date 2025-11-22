@@ -9,6 +9,7 @@ config({ path: '.env.local', override: true });
 const envSchema = z.object({
   TOKEN: z.string().min(1, 'TOKEN is required'),
   VOICE_CHANNEL_ID: z.string().min(1, 'VOICE_CHANNEL_ID is required'),
+  VOICE_TEXT_CHANNEL_ID: z.string().optional(),
   TARGET_GUILD_ID: z.string().min(1, 'TARGET_GUILD_ID is required'),
   ADMIN_ROLE_IDS: z.string().min(1, 'ADMIN_ROLE_IDS is required'),
   TTS_LANG: z.string().default('id-ID'),
@@ -20,5 +21,9 @@ export const loadEnv = (): AppEnv => {
   if (!parsed.success) {
     throw new Error(`Invalid environment variables: ${parsed.error.message}`);
   }
-  return parsed.data;
+  const env = parsed.data;
+  return {
+    ...env,
+    VOICE_TEXT_CHANNEL_ID: env.VOICE_TEXT_CHANNEL_ID || env.VOICE_CHANNEL_ID,
+  };
 };

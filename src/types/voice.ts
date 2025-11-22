@@ -11,8 +11,9 @@ export type TtsDriver = {
 };
 
 export type VoiceService = {
-  enqueue: (item: VoiceQueueItem) => void;
+  enqueue: (item: Omit<VoiceQueueItem, 'id'>) => VoiceQueueItem;
   join: (channelId: string) => Promise<void>;
   leave: () => Promise<void>;
   init: () => void;
+  announce: (text: string, channelId?: string, lang?: string) => void;
 };

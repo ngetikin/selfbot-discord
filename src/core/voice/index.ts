@@ -16,20 +16,21 @@ export type VoiceDeps = {
 export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceService => {
   const adapter = createVoiceAdapter(env, logger);
   const queue = new Collection<string, VoiceQueueItem>();
-  let joining = false;
+  let processing = false;
 
-  const enqueue = (item: Omit<VoiceQueueItem, 'id'>) => {
+  const enqueue = (item: Omit<VoiceQueueItem, 'id'>): VoiceQueueItem => {
     const id = randomUUID();
     queue.set(id, { ...item, id });
     logger.debug('Voice item enqueued', { id, text: item.text });
     void processQueue();
+    return { ...item, id };
   };
 
   const processQueue = async () => {
-    if (joining) return;
+    if (processing) return;
     const next = queue.first();
     if (!next) return;
-    joining = true;
+    processing = true;
     try {
       if (next.channelId) {
         await join(next.channelId);
@@ -40,7 +41,7 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
       logger.error('Voice processing failed', { err });
       queue.delete(next.id);
     } finally {
-      joining = false;
+      processing = false;
       if (queue.size > 0) void processQueue();
     }
   };
@@ -59,6 +60,10 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
     }
   };
 
+  const announce = (text: string, channelId = env.VOICE_CHANNEL_ID, lang = env.TTS_LANG) => {
+    enqueue({ text, lang, channelId });
+  };
+
   const init = () => {
     logger.info('Voice service initialized (stub)', {
       voiceChannelId: env.VOICE_CHANNEL_ID,
@@ -70,6 +75,7 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
     enqueue,
     join,
     leave,
+    announce,
     init,
   };
 };
