@@ -51,9 +51,9 @@ v0.6 Tooling & kualitas
 
 v0.7 Deploy & ops
 
-- Script `scripts/deploy-termux.sh`: install deps, build, pm2 start `dist/index.js`, `pm2 save/resurrect`; set env via file.
-- Logging level/env (`LOG_LEVEL`, `DEBUG`); redaksi ID/token; rotate log dengan pm2 config.
-- Graceful shutdown hook (SIGINT/SIGTERM) untuk tutup voice dan flush queue.
+- Script `scripts/deploy-termux.sh`: install deps, build, pm2 start `dist/index.js`, `pm2 save/resurrect`; set env via file (DONE).
+- Logging level/env (`LOG_LEVEL`); redaksi ID/token (DONE); rotate log dengan pm2 config.
+- Graceful shutdown hook (SIGINT/SIGTERM) untuk tutup voice dan flush queue (DONE).
 
 v0.8 Review & backlog
 

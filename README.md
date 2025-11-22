@@ -157,6 +157,15 @@ pnpm start
 pm2 start dist/index.js --name ngetikin-selfbot
 ```
 
+### Deploy via script (Termux)
+
+```sh
+chmod +x scripts/deploy-termux.sh
+./scripts/deploy-termux.sh
+```
+
+Script akan install deps, build, lalu pm2 start + save.
+
 ---
 
 ## 🔐 Warning
