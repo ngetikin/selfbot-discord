@@ -81,7 +81,6 @@ export const scheduleDailyMeme = (ctx: AppContext) => {
       const meme = await fetchMeme(env.MEME_API_URL);
       if (meme.url) {
         await channel.send({
-          content: meme.title,
           files: [meme.url],
         });
       } else {

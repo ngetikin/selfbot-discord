@@ -36,7 +36,7 @@ v0.4 Fitur voice
 v0.5 Fitur fun/utility
 
 - dailyMeme: scheduler harian; sumber API (reddit/other) + de-dupe; fallback cache lokal; formatting embed sederhana.
-- autoReply: pola teks dasar (halo, bot) → respon singkat; hindari loop self; bisa diperkaya nanti.
+- echoTag: jika akun di-mention, hapus pesan dan kirim ulang isi pesannya (tanpa mention).
 - activity: daftar presence (ACTIVITY_MESSAGES), rotasi tiap ≥5 menit.
 - autoEmoji channel: untuk channel tertentu (EMOJI_CHANNEL_IDS), auto-react 5–20 emoji acak; prioritas emoji server non-animated, fallback emoji universal.
 - Daily meme source: candaan-api (default) atau override lewat MEME_API_URL.
