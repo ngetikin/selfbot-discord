@@ -2,6 +2,7 @@ import type { TextChannel } from 'discord.js-selfbot-v13';
 import type { AppContext } from '../core/context';
 
 const DEFAULT_MEME_API = 'https://candaan-api.vercel.app/api/receh/random';
+const WIB_OFFSET_MS = 7 * 60 * 60 * 1000; // UTC+7
 
 type MemeResponse = {
   message?: string;
@@ -33,9 +34,29 @@ const fetchMeme = async (apiUrl?: string) => {
   return parseMeme(data);
 };
 
+const nextTriggerMs = (hoursWib: number[]): number => {
+  const nowUtc = Date.now();
+  const wibNow = new Date(nowUtc + WIB_OFFSET_MS);
+  const sorted = [...hoursWib].sort((a, b) => a - b);
+
+  for (const hour of sorted) {
+    const candidateWib = new Date(wibNow);
+    candidateWib.setHours(hour, 0, 0, 0);
+    const candidateUtc = candidateWib.getTime() - WIB_OFFSET_MS;
+    if (candidateUtc > nowUtc) return candidateUtc;
+  }
+
+  const nextDayWib = new Date(wibNow);
+  nextDayWib.setDate(nextDayWib.getDate() + 1);
+  nextDayWib.setHours(sorted[0], 0, 0, 0);
+  return nextDayWib.getTime() - WIB_OFFSET_MS;
+};
+
 export const scheduleDailyMeme = (ctx: AppContext) => {
   const { env, logger, client } = ctx;
   if (!env.MEME_CHANNEL_ID) return;
+  const hours = [8, 13, 19]; // WIB
+
   const sendMeme = async () => {
     try {
       if (!env.MEME_CHANNEL_ID) return;
@@ -51,7 +72,16 @@ export const scheduleDailyMeme = (ctx: AppContext) => {
       logger.warn('Daily meme failed', { err });
     }
   };
-  // Send on ready and every 6h
+
+  const scheduleNext = () => {
+    const nextUtc = nextTriggerMs(hours);
+    const delay = Math.max(0, nextUtc - Date.now());
+    setTimeout(async () => {
+      await sendMeme();
+      scheduleNext();
+    }, delay);
+  };
+
   void sendMeme();
-  setInterval(sendMeme, 6 * 60 * 60 * 1000);
+  scheduleNext();
 };
