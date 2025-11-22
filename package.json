@@ -11,7 +11,9 @@
     "lint:fix": "pnpm lint --fix",
     "format": "prettier --write \"**/*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md}\"",
-    "test": "echo \"No tests yet\" && exit 0",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
     "start": "node dist/index.js"
   },
   "engines": {
@@ -35,14 +37,17 @@
     "@types/node": "^22.9.0",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.12.2",
+    "@vitest/coverage-v8": "^4.0.13",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.12.2"
+    "typescript-eslint": "^8.12.2",
+    "vitest": "^4.0.13"
   }
 }

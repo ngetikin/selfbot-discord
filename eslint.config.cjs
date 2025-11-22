@@ -10,7 +10,7 @@ module.exports = tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['**/*.ts'],
+    files: ['src/**/*.ts'],
     plugins: {
       prettier: prettierPlugin,
     },
@@ -23,6 +23,21 @@ module.exports = tseslint.config(
     rules: {
       'prettier/prettier': ['error'],
       '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
+  },
+  {
+    files: ['test/**/*.ts', 'vitest.config.ts'],
+    plugins: {
+      prettier: prettierPlugin,
+    },
+    languageOptions: {
+      parserOptions: {
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'prettier/prettier': ['error'],
       '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
