@@ -66,7 +66,7 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
   const ensureConnection = async (channelId: string): Promise<VoiceConnection> => {
     if (connection) return connection;
     let attempt = 0;
-    const maxAttempts = 3;
+    const maxAttempts = 5;
     const joinWithRetry = async (): Promise<VoiceConnection> => {
       attempt += 1;
       try {
@@ -77,7 +77,7 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
         logger.warn('Join voice failed', { attempt, err });
         connection = null;
         if (attempt < maxAttempts) {
-          await new Promise((res) => setTimeout(res, 3000));
+          await new Promise((res) => setTimeout(res, 5000));
           return joinWithRetry();
         }
         throw err;

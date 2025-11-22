@@ -17,7 +17,11 @@ export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx
       schedulerTasks: ctx.scheduler.snapshot().length,
       storageKeys: ctx.storage.listKeys(),
     });
-    void ctx.voice.join(env.VOICE_CHANNEL_ID);
+    setTimeout(() => {
+      ctx.voice
+        .join(env.VOICE_CHANNEL_ID)
+        .catch((err) => logger.warn('Auto-join voice failed', { err }));
+    }, 5_000);
     scheduleDailyMeme(ctx);
     const richApplied = await applyRichActivity(ctx);
     if (!richApplied) startActivityRotation(ctx);
