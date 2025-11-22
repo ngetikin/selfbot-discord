@@ -45,9 +45,7 @@ Contoh `config/activity.json`:
   "largeText": "Idle",
   "smallImage": "373370493127884800",
   "smallText": "click the circles",
-  "buttons": [
-    { "label": "Beatmap", "url": "https://osu.ppy.sh/beatmapsets/1391659#osu/2873429" }
-  ],
+  "buttons": [{ "label": "Beatmap", "url": "https://osu.ppy.sh/beatmapsets/1391659#osu/2873429" }],
   "customStatus": { "emoji": "😋", "text": "yum" }
 }
 ```

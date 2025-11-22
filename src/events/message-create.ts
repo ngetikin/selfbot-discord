@@ -2,9 +2,9 @@ import type { Message } from 'discord.js-selfbot-v13';
 import type { AppClient } from '../core/client';
 import type { Logger } from '../utils/logger';
 import type { AppContext } from '../core/context';
-import { handleAutoEmoji } from '../features/auto-emoji';
-import { handleEchoTag } from '../features/echo-tag';
-import { handleGroqChat } from '../features/chat-groq';
+import { handleAutoEmoji } from '../features/auto-emoji.js';
+import { handleEchoTag } from '../features/echo-tag.js';
+import { handleGroqChat } from '../features/chat-groq.js';
 
 // Voice reader disabled: only log self messages; auto-emoji for target channels.
 export const messageCreateHandler = (client: AppClient, logger: Logger, ctx: AppContext) => {

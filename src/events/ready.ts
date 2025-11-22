@@ -2,9 +2,9 @@ import type { AppClient } from '../core/client';
 import type { Logger } from '../utils/logger';
 import type { AppEnv } from '../types/env';
 import type { AppContext } from '../core/context';
-import { scheduleDailyMeme } from '../features/daily-meme';
-import { startActivityRotation } from '../features/activity';
-import { applyRichActivity } from '../features/rich-activity';
+import { scheduleDailyMeme } from '../features/daily-meme.js';
+import { startActivityRotation } from '../features/activity.js';
+import { applyRichActivity } from '../features/rich-activity.js';
 
 export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx: AppContext) => {
   client.once('ready', async () => {

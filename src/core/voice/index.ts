@@ -4,9 +4,9 @@ import { randomUUID } from 'crypto';
 import type { VoiceQueueItem, VoiceService } from '../../types/voice';
 import type { AppEnv } from '../../types/env';
 import type { Logger } from '../../utils/logger';
-import { createVoiceAdapter } from './tts-adapter';
-import type { AppClient } from '../client';
-import { throttleJoin } from './voice-join';
+import { createVoiceAdapter } from './tts-adapter.js';
+import type { AppClient } from '../client.js';
+import { throttleJoin } from './voice-join.js';
 
 export type VoiceDeps = {
   client: AppClient;

@@ -1,10 +1,10 @@
-import { createClient } from './core/client';
-import { createVoiceService } from './core/voice';
-import { FileStorage } from './core/storage';
-import { Scheduler } from './core/scheduler';
-import { loadEnv } from './utils/env';
-import { createLogger } from './utils/logger';
-import { registerEvents } from './events';
+import { createClient } from './core/client.js';
+import { createVoiceService } from './core/voice/index.js';
+import { FileStorage } from './core/storage.js';
+import { Scheduler } from './core/scheduler.js';
+import { loadEnv } from './utils/env.js';
+import { createLogger } from './utils/logger.js';
+import { registerEvents } from './events/index.js';
 import type { AppContext } from './core/context';
 
 const handleShutdown = (ctx: AppContext) => {
