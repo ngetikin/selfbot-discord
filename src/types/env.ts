@@ -8,5 +8,6 @@ export type AppEnv = {
   EMOJI_CHANNEL_IDS?: string;
   MEME_CHANNEL_ID?: string;
   MEME_API_URL?: string;
+  MEME_DEBUG_NOW?: string;
   ACTIVITY_MESSAGES?: string;
 };

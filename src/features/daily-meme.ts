@@ -55,7 +55,7 @@ const nextTriggerMs = (hoursWib: number[]): number => {
 export const scheduleDailyMeme = (ctx: AppContext) => {
   const { env, logger, client } = ctx;
   if (!env.MEME_CHANNEL_ID) return;
-  const hours = [8, 13, 19]; // WIB
+  const hours = [8, 13, 19, 18]; // WIB
 
   const sendMeme = async () => {
     try {
@@ -66,7 +66,7 @@ export const scheduleDailyMeme = (ctx: AppContext) => {
         return;
       }
       const meme = await fetchMeme(env.MEME_API_URL);
-      await channel.send(`${meme.title}\n${meme.url}\n${meme.link ?? ''}`.trim());
+      await channel.send(`@everyone\n${meme.title}\n${meme.url}\n${meme.link ?? ''}`.trim());
       logger.info('Daily meme sent');
     } catch (err) {
       logger.warn('Daily meme failed', { err });
@@ -83,5 +83,8 @@ export const scheduleDailyMeme = (ctx: AppContext) => {
   };
 
   void sendMeme();
+  if (env.MEME_DEBUG_NOW === 'true') {
+    void sendMeme();
+  }
   scheduleNext();
 };
