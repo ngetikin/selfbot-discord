@@ -17,9 +17,10 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 - Channel spesifik (EMOJI_CHANNEL_IDS): auto-react 5–20 emoji acak.
 - Prioritas emoji server non-animated; fallback emoji universal.
 
-### 🧠 Auto Reply (sederhana)
+### 🧠 Mention Chat (Groq)
 
-- Pola teks dasar (halo, bot, dsb) → balasan singkat.
+- Jika GROQ_API_KEY di-set, mention bot (tanpa prefix `say`) akan dibalas via Groq (default model `groq/compound`).
+- Rate limit lokal: 1 request / 20 detik per channel.
 
 ### 😂 Daily Meme (sederhana)
 
@@ -123,7 +124,10 @@ LOG_LEVEL=info
 EMOJI_CHANNEL_IDS=
 MEME_CHANNEL_ID=
 MEME_API_URL=
+MEME_DEBUG_NOW=
 ACTIVITY_MESSAGES=
+GROQ_API_KEY=
+GROQ_MODEL=groq/compound
 
 # Opsional lain
 MEME_API_KEY=

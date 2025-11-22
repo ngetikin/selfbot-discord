@@ -9,5 +9,7 @@ export type AppEnv = {
   MEME_CHANNEL_ID?: string;
   MEME_API_URL?: string;
   MEME_DEBUG_NOW?: string;
+  GROQ_API_KEY?: string;
+  GROQ_MODEL?: string;
   ACTIVITY_MESSAGES?: string;
 };
