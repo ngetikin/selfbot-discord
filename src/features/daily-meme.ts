@@ -1,7 +1,7 @@
 import type { TextChannel } from 'discord.js-selfbot-v13';
 import type { AppContext } from '../core/context';
 
-const DEFAULT_MEME_API = 'https://candaan-api.vercel.app/api/receh/random';
+const DEFAULT_MEME_API = 'https://candaan-api.vercel.app/api/image/random';
 const FALLBACK_MEME_API = 'https://meme-api.com/gimme';
 const WIB_OFFSET_MS = 7 * 60 * 60 * 1000; // UTC+7
 
@@ -17,13 +17,15 @@ type MemeResponse = {
     url?: string;
     image?: string;
     postLink?: string;
+    source?: string;
   };
 };
 
 const parseMeme = (data: MemeResponse) => {
-  const title = data?.message || data?.title || data?.data?.title || data?.data?.message || 'Meme';
-  const url = data?.url || data?.image || data?.data?.url || data?.data?.image || '';
-  const link = data?.postLink || data?.data?.postLink || '';
+  const payload = data?.data ?? {};
+  const url = payload.url || data.url || payload.image || data.image || '';
+  const title = payload.title || data.title || payload.source || data.postLink || 'Meme';
+  const link = payload.source || data.postLink || '';
   return { title, url, link };
 };
 
