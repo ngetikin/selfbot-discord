@@ -19,8 +19,8 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 
 ### 🧠 Mention Chat (Groq)
 
-- Jika GROQ_API_KEY di-set, mention bot (tanpa prefix `say`) akan dibalas via Groq (default model `groq/compound`).
-- Rate limit lokal: 1 request / 20 detik per channel.
+- Jika GROQ_API_KEY di-set, mention bot (tanpa prefix `say`) akan dibalas via Groq (default model `llama-3.2-1b-preview`).
+- Rate limit lokal: 1 request / 20 detik per channel; fallback otomatis ke model lain jika tidak tersedia/413/404.
 
 ### 😂 Daily Meme (sederhana)
 

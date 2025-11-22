@@ -38,10 +38,10 @@
 
 ## Testing Guidelines
 
-- Place fast unit tests in `test/unit`, heavier integration in `test/integration`.
+- Unit: env validator, logger redaction/level, scheduler order/persist.
+- Integration: event wiring, voice join/queue (mock), daily meme (mock fetch).
 - Mock Discord network calls and TTS/audio I/O; avoid external APIs in CI.
-- Add regression tests for voice scheduling, TTS queue order, meme de-duplication.
-- Prefer descriptive test names (`shouldQueueTtsInJoinOrder`); assert behavior, not implementation.
+- Prefer descriptive test names; assert behavior, not implementation.
 
 ## Commit & Pull Request Guidelines
 

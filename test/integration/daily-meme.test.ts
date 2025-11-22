@@ -31,15 +31,15 @@ describe('daily meme scheduler', () => {
           ],
         ]),
       },
-    } as any,
-    scheduler: {} as any,
-    storage: {} as any,
-    voice: {} as any,
+    } as unknown as AppContext['client'],
+    scheduler: {} as AppContext['scheduler'],
+    storage: {} as AppContext['storage'],
+    voice: {} as AppContext['voice'],
     logger: {
       warn: vi.fn(),
       info: vi.fn(),
       debug: vi.fn(),
-    } as any,
+    } as AppContext['logger'],
   };
 
   afterEach(() => {
@@ -51,7 +51,7 @@ describe('daily meme scheduler', () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ data: { url: 'http://x', title: 't' } }),
-    } as any);
+    } as unknown as Response);
 
     scheduleDailyMeme(ctx);
     await wait(10);

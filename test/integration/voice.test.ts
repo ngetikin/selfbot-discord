@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { createVoiceService } from '../../src/core/voice';
 import type { VoiceConnection } from 'discord.js-selfbot-v13';
@@ -21,7 +22,7 @@ const makeClient = () =>
     voice: {
       joinChannel: mockJoin,
     },
-  } as any);
+  }) as unknown as { voice: { joinChannel: typeof mockJoin } };
 
 const env = {
   TOKEN: 'x',

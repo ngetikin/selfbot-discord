@@ -44,10 +44,10 @@ v0.5 Fitur fun/utility
 
 v0.6 Tooling & kualitas
 
-- Tes unit: env validator, logger redaction, scheduler ops, TTS queue order.
-- Tes integration: event flow mock Discord, voice queue -> adaptor `espeak-ng` (mock spawn), daily meme scheduler (mock fetch).
+- Tes unit: env validator, logger redaction/level, scheduler ops/persistence (DONE).
+- Tes integration: event flow mock, voice join/queue (mock), daily meme scheduler (mock fetch) (DONE).
 - Setup lint-staged (opsional) untuk format/lint pada staged files; update pre-commit jika diaktifkan.
-- GitHub Actions: workflow lint + test pada push/PR; cache pnpm.
+- GitHub Actions: workflow lint + test + build, cache pnpm (DONE).
 
 v0.7 Deploy & ops
 
