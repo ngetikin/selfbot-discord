@@ -39,6 +39,7 @@ v0.5 Fitur fun/utility
 - autoReply: pola teks dasar (halo, bot) → respon singkat; hindari loop self; bisa diperkaya nanti.
 - activity: daftar presence (ACTIVITY_MESSAGES), rotasi tiap ≥5 menit.
 - autoEmoji channel: untuk channel tertentu (EMOJI_CHANNEL_IDS), auto-react 5–20 emoji acak; prioritas emoji server non-animated, fallback emoji universal.
+- Daily meme source: candaan-api (default) atau override lewat MEME_API_URL.
 
 v0.6 Tooling & kualitas
 

@@ -15,6 +15,7 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
   EMOJI_CHANNEL_IDS: z.string().optional(),
   MEME_CHANNEL_ID: z.string().optional(),
+  MEME_API_URL: z.string().url().optional(),
   ACTIVITY_MESSAGES: z.string().optional(),
 });
 

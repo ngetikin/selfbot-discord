@@ -7,5 +7,6 @@ export type AppEnv = {
   LOG_LEVEL?: 'debug' | 'info' | 'warn' | 'error';
   EMOJI_CHANNEL_IDS?: string;
   MEME_CHANNEL_ID?: string;
+  MEME_API_URL?: string;
   ACTIVITY_MESSAGES?: string;
 };

@@ -23,7 +23,7 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 
 ### 😂 Daily Meme (sederhana)
 
-- Jika MEME_CHANNEL_ID di-set, kirim meme dari meme-api.com/gimme setiap 6 jam.
+- Jika MEME_CHANNEL_ID di-set, kirim meme dari candaan-api (default) setiap 6 jam.
 
 ### 🟢 Activity Rotation
 
@@ -100,6 +100,7 @@ TTS_LANG=id-ID
 LOG_LEVEL=info
 EMOJI_CHANNEL_IDS=
 MEME_CHANNEL_ID=
+MEME_API_URL=
 ACTIVITY_MESSAGES=
 
 # Opsional lain
