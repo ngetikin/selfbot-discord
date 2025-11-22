@@ -49,33 +49,24 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 
 ---
 
-## 📁 Project Structure
+## 📁 Project Structure (current skeleton)
 
 ```
 src/
-  config/
   core/
     client.ts
     scheduler.ts
     storage.ts
-    voice/
-      manager.ts
-      tts.ts
-      queue.ts
-      speaking.ts
-  features/
-    voiceAutoJoin/
-    voiceAnnouncer/
-    voiceReader/
-    dailyMeme/
-    autoReply/
-    activity/
-  events/
-  utils/
-  types/
+    voice.ts        # stub; to be expanded
+  events/           # ready, messageCreate, voiceStateUpdate
+  utils/            # env loader (dotenv+zod), logger with redaction
+  types/            # env types
+  features/         # reserved for voiceAutoJoin, announcer, reader, dailyMeme, autoReply, activity
 scripts/
-  deploy-termux.sh
+  (placeholder)
 test/
+  unit/
+  integration/
 ```
 
 ---
@@ -90,7 +81,7 @@ pnpm install
 
 ### 2. Setup environment file
 
-Buat `.env`:
+Buat `.env` (opsional override di `.env.local`):
 
 ```
 TOKEN=
@@ -98,6 +89,7 @@ VOICE_CHANNEL_ID=
 TARGET_GUILD_ID=
 ADMIN_ROLE_IDS=
 TTS_LANG=id-ID
+LOG_LEVEL=info
 ```
 
 ### 3. Development mode
@@ -106,13 +98,21 @@ TTS_LANG=id-ID
 pnpm dev
 ```
 
-### 4. Build
+### 4. Lint & format
+
+```sh
+pnpm lint
+pnpm format:check
+```
+
+### 5. Build & run
 
 ```sh
 pnpm build
+pnpm start
 ```
 
-### 5. Run with PM2 (Termux)
+### 6. Run with PM2 (Termux)
 
 ```sh
 pm2 start dist/index.js --name ngetikin-selfbot

@@ -17,7 +17,7 @@ v0.2 Kerangka bot
 - Struktur folder: `src/core`, `src/features`, `src/events`, `src/utils`, `src/types`, `scripts`, `test/unit`, `test/integration`.
 - Entry `src/index.ts`: load env + validate, init logger, init client dengan intents minimal, global error handler, start event loader.
 - Event loader di `src/events/index.ts`: auto-load file handler `ready`, `messageCreate`, `voiceStateUpdate`.
-- Utils: logger dengan redaction token/IDs, helper waktu/cooldown, validator env (zod/yup).
+- Utils: logger dengan redaction token/IDs, helper waktu/cooldown, validator env (zod/yup + dotenv).
 - Types: config shape, queue item (TTS), scheduler task, storage interface.
 
 v0.3 Core services
