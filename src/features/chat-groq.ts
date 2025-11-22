@@ -3,6 +3,7 @@ import type { AppContext } from '../core/context';
 
 const RATE_LIMIT_MS = 20_000;
 const lastCallPerChannel = new Map<string, number>();
+const MAX_INPUT_CHARS = 500;
 
 const isRateLimited = (channelId: string) => {
   const last = lastCallPerChannel.get(channelId) ?? 0;
@@ -26,15 +27,18 @@ export const handleGroqChat = async (message: Message, ctx: AppContext) => {
     return;
   }
 
-  const model = env.GROQ_MODEL || 'groq/compound';
+  const model = env.GROQ_MODEL || 'llama-3.1-8b-instant';
+  const userContent = stripped.slice(0, MAX_INPUT_CHARS);
   const payload = {
     model,
+    max_tokens: 120,
+    temperature: 0.7,
     messages: [
       {
         role: 'system',
         content: 'Balas singkat dalam Bahasa Indonesia. Jika diminta echo, jangan lakukan.',
       },
-      { role: 'user', content: stripped },
+      { role: 'user', content: userContent },
     ],
   };
 
@@ -49,6 +53,9 @@ export const handleGroqChat = async (message: Message, ctx: AppContext) => {
     });
     if (!res.ok) {
       logger.warn('Groq API error', { status: res.status });
+      if (res.status === 413) {
+        await message.reply('Maaf, pesannya terlalu panjang.');
+      }
       return;
     }
     const data = await res.json();
