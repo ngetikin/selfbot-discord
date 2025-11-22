@@ -2,6 +2,7 @@ import type { TextChannel } from 'discord.js-selfbot-v13';
 import type { AppContext } from '../core/context';
 
 const DEFAULT_MEME_API = 'https://candaan-api.vercel.app/api/receh/random';
+const FALLBACK_MEME_API = 'https://meme-api.com/gimme';
 const WIB_OFFSET_MS = 7 * 60 * 60 * 1000; // UTC+7
 
 type MemeResponse = {
@@ -27,11 +28,21 @@ const parseMeme = (data: MemeResponse) => {
 };
 
 const fetchMeme = async (apiUrl?: string) => {
-  const target = apiUrl || DEFAULT_MEME_API;
-  const res = await fetch(target);
-  if (!res.ok) throw new Error(`Failed to fetch meme: ${res.status}`);
-  const data = (await res.json()) as MemeResponse;
-  return parseMeme(data);
+  const candidates = [apiUrl, DEFAULT_MEME_API, FALLBACK_MEME_API].filter(Boolean) as string[];
+  let lastError: Error | null = null;
+
+  for (const target of candidates) {
+    try {
+      const res = await fetch(target);
+      if (!res.ok) throw new Error(`Failed to fetch meme: ${res.status}`);
+      const data = (await res.json()) as MemeResponse;
+      return parseMeme(data);
+    } catch (err) {
+      lastError = err as Error;
+    }
+  }
+
+  throw lastError ?? new Error('No meme source available');
 };
 
 const nextTriggerMs = (hoursWib: number[]): number => {
