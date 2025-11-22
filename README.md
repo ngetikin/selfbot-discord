@@ -28,6 +28,28 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 ### 🟢 Activity Rotation
 
 - Jika ACTIVITY_MESSAGES di-set (comma-separated), rotasi presence tiap 5 menit.
+- Opsional rich presence: jika ada `config/activity.json`, bot pakai itu (buttons/gambar/URL) dan melewati rotasi sederhana.
+
+Contoh `config/activity.json`:
+
+```json
+{
+  "applicationId": "367827983903490050",
+  "name": "osu!",
+  "details": "MariannE - Yooh",
+  "state": "Arcade Game",
+  "type": 0,
+  "url": "https://www.youtube.com/watch?v=5icFcPkVzMg",
+  "largeImage": "https://assets.ppy.sh/beatmaps/1550633/covers/list.jpg",
+  "largeText": "Idle",
+  "smallImage": "373370493127884800",
+  "smallText": "click the circles",
+  "buttons": [
+    { "label": "Beatmap", "url": "https://osu.ppy.sh/beatmapsets/1391659#osu/2873429" }
+  ],
+  "customStatus": { "emoji": "😋", "text": "yum" }
+}
+```
 
 ### 😂 Daily Meme
 

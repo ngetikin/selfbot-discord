@@ -4,6 +4,7 @@ import type { AppEnv } from '../types/env';
 import type { AppContext } from '../core/context';
 import { scheduleDailyMeme } from '../features/daily-meme';
 import { startActivityRotation } from '../features/activity';
+import { applyRichActivity } from '../features/rich-activity';
 
 export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx: AppContext) => {
   client.once('ready', () => {
@@ -18,6 +19,7 @@ export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx
     });
     void ctx.voice.join(env.VOICE_CHANNEL_ID);
     scheduleDailyMeme(ctx);
-    startActivityRotation(ctx);
+    const richApplied = applyRichActivity(ctx);
+    if (!richApplied) startActivityRotation(ctx);
   });
 };
