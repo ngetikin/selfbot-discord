@@ -1,8 +1,27 @@
-/* Entry point placeholder. Will be expanded with client init and event loader in v0.2. */
+import { createClient } from './core/client';
+import { createVoiceService } from './core/voice';
+import { FileStorage } from './core/storage';
+import { Scheduler } from './core/scheduler';
+import { loadEnv } from './utils/env';
+import { createLogger } from './utils/logger';
+import { registerEvents } from './events';
 
 const main = async () => {
-  // TODO: load env, init logger, start client.
-  console.log('Selfbot bootstrap ready');
+  const env = loadEnv();
+  const logger = createLogger(env.LOG_LEVEL);
+
+  const storage = new FileStorage('data');
+  const scheduler = new Scheduler();
+  const voice = createVoiceService(env, logger);
+
+  const client = createClient(logger);
+  registerEvents(client, logger, env);
+
+  voice.init();
+  logger.debug('Scheduler initialized', { tasks: scheduler.popReady(Date.now()).length });
+  logger.debug('Storage initialized', { baseDir: 'data', example: storage.readJson('init', {}) });
+
+  await client.login(env.TOKEN);
 };
 
 main().catch((error) => {
