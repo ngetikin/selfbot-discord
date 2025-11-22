@@ -1,6 +1,6 @@
-export const throttleJoin = (fn: (channelId: string) => Promise<void>, minIntervalMs: number) => {
+export const throttleJoin = <T>(fn: (channelId: string) => Promise<T>, minIntervalMs: number) => {
   let last = 0;
-  let pending: Promise<void> | null = null;
+  let pending: Promise<T> | null = null;
 
   return async (channelId: string) => {
     const now = Date.now();
@@ -10,6 +10,7 @@ export const throttleJoin = (fn: (channelId: string) => Promise<void>, minInterv
     last = now;
     pending = fn(channelId).catch((err) => {
       console.error('Join voice error', err);
+      throw err;
     });
     return pending;
   };

@@ -1,3 +1,5 @@
+import type { VoiceConnection } from 'discord.js-selfbot-v13';
+
 export type VoiceQueueItem = {
   id: string;
   text: string;
@@ -7,7 +9,7 @@ export type VoiceQueueItem = {
 };
 
 export type TtsDriver = {
-  speak: (item: VoiceQueueItem) => Promise<void>;
+  speak: (item: VoiceQueueItem, connection: VoiceConnection) => Promise<void>;
 };
 
 export type VoiceService = {
