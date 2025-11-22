@@ -2,6 +2,8 @@ import type { AppClient } from '../core/client';
 import type { Logger } from '../utils/logger';
 import type { AppEnv } from '../types/env';
 import type { AppContext } from '../core/context';
+import { scheduleDailyMeme } from '../features/daily-meme';
+import { startActivityRotation } from '../features/activity';
 
 export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx: AppContext) => {
   client.once('ready', () => {
@@ -15,5 +17,7 @@ export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx
       storageKeys: ctx.storage.listKeys(),
     });
     void ctx.voice.join(env.VOICE_CHANNEL_ID);
+    scheduleDailyMeme(ctx);
+    startActivityRotation(ctx);
   });
 };

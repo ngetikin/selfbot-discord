@@ -17,6 +17,18 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 - Channel spesifik (EMOJI_CHANNEL_IDS): auto-react 5–20 emoji acak.
 - Prioritas emoji server non-animated; fallback emoji universal.
 
+### 🧠 Auto Reply (sederhana)
+
+- Pola teks dasar (halo, bot, dsb) → balasan singkat.
+
+### 😂 Daily Meme (sederhana)
+
+- Jika MEME_CHANNEL_ID di-set, kirim meme dari meme-api.com/gimme setiap 6 jam.
+
+### 🟢 Activity Rotation
+
+- Jika ACTIVITY_MESSAGES di-set (comma-separated), rotasi presence tiap 5 menit.
+
 ### 😂 Daily Meme
 
 - Kirim meme pagi, siang, sore.
@@ -87,6 +99,8 @@ ADMIN_ROLE_IDS=
 TTS_LANG=id-ID
 LOG_LEVEL=info
 EMOJI_CHANNEL_IDS=
+MEME_CHANNEL_ID=
+ACTIVITY_MESSAGES=
 
 # Opsional lain
 MEME_API_KEY=

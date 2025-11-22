@@ -9,7 +9,7 @@
 ## Setup & Environment
 
 - Install dependencies with `pnpm install` (Node.js ≥20 preferred).
-- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; default `LOG_LEVEL=info`; add provider keys (TTS, meme APIs) when needed; optional `EMOJI_CHANNEL_IDS` for auto-emoji.
+- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; default `LOG_LEVEL=info`; optional `EMOJI_CHANNEL_IDS` (auto-emoji), `MEME_CHANNEL_ID` (daily meme), `ACTIVITY_MESSAGES` (presence rotation); add provider keys (TTS, meme APIs) when needed.
 - Never commit secrets; use local env files and CI secrets for pipelines.
 
 ## Build, Test, and Development Commands
@@ -24,7 +24,9 @@
 
 - Voice: auto-join only; TTS announcer/reader disabled sementara (log-only) karena limitasi voice API/connection.
 - Auto emoji: channel-based (EMOJI_CHANNEL_IDS), react 5–20 emoji random; prioritise server non-animated, fallback unicode.
-- Upcoming: daily meme, autoReply, activity rotation.
+- AutoReply: pola dasar (halo, bot) -> balasan singkat.
+- Daily meme: jika MEME_CHANNEL_ID set, fetch meme-api.com/gimme tiap 6 jam.
+- Activity rotation: jika ACTIVITY_MESSAGES set (comma-separated), ganti presence tiap 5 menit.
 
 ## Coding Style & Naming Conventions
 

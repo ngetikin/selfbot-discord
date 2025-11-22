@@ -14,6 +14,8 @@ const envSchema = z.object({
   TTS_LANG: z.string().default('id-ID'),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
   EMOJI_CHANNEL_IDS: z.string().optional(),
+  MEME_CHANNEL_ID: z.string().optional(),
+  ACTIVITY_MESSAGES: z.string().optional(),
 });
 
 export const loadEnv = (): AppEnv => {

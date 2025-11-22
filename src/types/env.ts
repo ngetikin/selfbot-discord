@@ -6,4 +6,6 @@ export type AppEnv = {
   TTS_LANG: string;
   LOG_LEVEL?: 'debug' | 'info' | 'warn' | 'error';
   EMOJI_CHANNEL_IDS?: string;
+  MEME_CHANNEL_ID?: string;
+  ACTIVITY_MESSAGES?: string;
 };
