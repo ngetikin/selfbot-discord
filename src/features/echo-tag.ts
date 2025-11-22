@@ -7,19 +7,18 @@ const hasAdminRole = (member: GuildMember | null, adminRoles: string[]): boolean
 };
 
 export const handleEchoTag = async (message: Message, ctx: AppContext) => {
-  if (!message.mentions.has(ctx.client.user?.id ?? '')) return;
-  if (!message.content.trim().toLowerCase().startsWith('say')) return;
-
   const member = message.member ?? null;
   const adminRoles = ctx.env.ADMIN_ROLE_IDS.split(',')
     .map((r) => r.trim())
     .filter(Boolean);
   if (!hasAdminRole(member, adminRoles)) return;
 
-  const content = message.content
-    .replace(/<@!?(\d+)>/g, '')
-    .replace(/^say/i, '')
-    .trim();
+  if (!message.mentions.has(ctx.client.user?.id ?? '')) return;
+
+  const stripped = message.content.replace(/<@!?(\d+)>/g, '').trim();
+  if (!stripped.toLowerCase().startsWith('say')) return;
+
+  const content = stripped.replace(/^say/i, '').trim();
   if (!content) return;
 
   try {
