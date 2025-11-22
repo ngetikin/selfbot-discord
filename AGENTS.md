@@ -24,9 +24,10 @@
 
 - Voice: auto-join only; TTS announcer/reader disabled sementara (log-only) karena limitasi voice API/connection.
 - Auto emoji: channel-based (EMOJI_CHANNEL_IDS), react 5–20 emoji random; prioritise server non-animated, fallback unicode.
-- AutoReply: pola dasar (halo, bot) -> balasan singkat.
-- Daily meme: jika MEME_CHANNEL_ID set, fetch candaan-api (default) tiap 6 jam.
-- Activity rotation: jika ACTIVITY_MESSAGES set (comma-separated), ganti presence tiap 5 menit.
+- Mention echo: admin mention + prefix `say` -> hapus pesan & kirim ulang teks.
+- Daily meme: jika MEME_CHANNEL_ID set, fetch candaan-api image (fallback meme-api), jadwal 08/13/19 WIB; MEME_DEBUG_NOW untuk sekali kirim di start.
+- Activity: rotasi presence (ACTIVITY_MESSAGES) atau rich presence via config/activity.json.
+- Groq chat: mention (tanpa say) balas via Groq; default model `llama-3.2-1b-preview` (fallback otomatis model lain); rate-limit lokal.
 
 ## Coding Style & Naming Conventions
 

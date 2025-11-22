@@ -40,6 +40,7 @@ v0.5 Fitur fun/utility
 - activity: daftar presence (ACTIVITY_MESSAGES), rotasi tiap ≥5 menit.
 - autoEmoji channel: untuk channel tertentu (EMOJI_CHANNEL_IDS), auto-react 5–20 emoji acak; prioritas emoji server non-animated, fallback emoji universal.
 - Daily meme source: candaan-api (default) atau override lewat MEME_API_URL.
+- Groq mention chat: default model `llama-3.2-1b-preview` dengan fallback; rate-limit lokal.
 
 v0.6 Tooling & kualitas
 
