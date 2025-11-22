@@ -13,6 +13,7 @@ const envSchema = z.object({
   ADMIN_ROLE_IDS: z.string().min(1, 'ADMIN_ROLE_IDS is required'),
   TTS_LANG: z.string().default('id-ID'),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  EMOJI_CHANNEL_IDS: z.string().optional(),
 });
 
 export const loadEnv = (): AppEnv => {

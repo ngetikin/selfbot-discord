@@ -8,6 +8,6 @@ import { voiceStateUpdateHandler } from './voice-state-update';
 
 export const registerEvents = (client: AppClient, logger: Logger, env: AppEnv, ctx: AppContext) => {
   readyHandler(client, logger, env, ctx);
-  messageCreateHandler(client, logger);
+  messageCreateHandler(client, logger, ctx);
   voiceStateUpdateHandler(client, logger, env);
 };

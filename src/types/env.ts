@@ -5,4 +5,5 @@ export type AppEnv = {
   ADMIN_ROLE_IDS: string;
   TTS_LANG: string;
   LOG_LEVEL?: 'debug' | 'info' | 'warn' | 'error';
+  EMOJI_CHANNEL_IDS?: string;
 };

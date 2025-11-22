@@ -10,7 +10,12 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 ### 🎧 Voice Automation (saat ini)
 
 - Auto join Voice Channel target.
-- TTS announcer/reader dinonaktifkan sementara.
+- TTS announcer/reader dinonaktifkan sementara (log-only).
+
+### 😀 Auto Emoji Reaction (rencana)
+
+- Channel spesifik (EMOJI_CHANNEL_IDS): auto-react 5–20 emoji acak.
+- Prioritas emoji server non-animated; fallback emoji universal.
 
 ### 😂 Daily Meme
 
@@ -77,11 +82,11 @@ Buat `.env` (opsional override di `.env.local`):
 ```
 TOKEN=
 VOICE_CHANNEL_ID=
-VOICE_TEXT_CHANNEL_ID=
 TARGET_GUILD_ID=
 ADMIN_ROLE_IDS=
 TTS_LANG=id-ID
 LOG_LEVEL=info
+EMOJI_CHANNEL_IDS=
 
 # Opsional lain
 MEME_API_KEY=

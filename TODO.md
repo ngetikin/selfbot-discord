@@ -30,15 +30,15 @@ v0.3 Core services
 v0.4 Fitur voice
 
 - voiceAutoJoin: on ready/reconnect join VOICE_CHANNEL_ID dengan permission check dan cooldown.
-- voiceAnnouncer: dengar event voiceStateUpdate; bikin pesan TTS join/leave; antrean; pilih voice/lang dari env.
-- voiceReader: komando/trigger teks channel tertentu → push ke antrean TTS; filter panjang/profanity opsional; hindari loop self-reply.
-- Rate-limit guard: join ≥30s, audio request throttle, error fallback (skip item jika gagal synth).
+- (Ditunda) voiceAnnouncer/voiceReader: dinonaktifkan sementara karena keterbatasan koneksi/voice API; log-only.
+- Rate-limit guard: join ≥30s, retry join terbatas.
 
 v0.5 Fitur fun/utility
 
 - dailyMeme: scheduler harian; sumber API (reddit/other) + de-dupe; fallback cache lokal; formatting embed sederhana.
 - autoReply: pola teks (regex/glob) → respon; konfigurasi file JSON/YAML; jangan balas diri sendiri; cooldown per user/channel.
 - activity: daftar presence; rotasi tiap ≥5 menit; dukung streaming/custom status; patuhi rate limit.
+- autoEmoji channel: untuk channel tertentu, auto-react 5–20 emoji acak; prioritas emoji server non-animated, fallback emoji universal.
 
 v0.6 Tooling & kualitas
 
@@ -57,4 +57,4 @@ v0.8 Review & backlog
 
 - Jalankan `pnpm lint && pnpm test && pnpm build`; perbaiki isu.
 - Audit rate-limit config (msg ≤5/menit/channel, presence ≥5m, voice join ≥30s) dan tambahkan ke config/env.
-- Susun backlog lanjutan: moderasi ringan, dashboard kecil, opsi provider TTS lain jika perlu.
+- Susun backlog lanjutan: moderasi ringan, dashboard kecil, opsi provider TTS lain jika perlu; evaluasi re-enable voice announcer/reader bila koneksi/dukungan memadai.

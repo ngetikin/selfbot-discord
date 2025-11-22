@@ -9,7 +9,7 @@
 ## Setup & Environment
 
 - Install dependencies with `pnpm install` (Node.js ≥20 preferred).
-- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; optional `VOICE_TEXT_CHANNEL_ID` (default ke VOICE_CHANNEL_ID); default `LOG_LEVEL=info`; add provider keys (TTS, meme APIs) when needed.
+- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; default `LOG_LEVEL=info`; add provider keys (TTS, meme APIs) when needed; optional `EMOJI_CHANNEL_IDS` for auto-emoji.
 - Never commit secrets; use local env files and CI secrets for pipelines.
 
 ## Build, Test, and Development Commands
@@ -19,6 +19,12 @@
 - `pnpm build` — compile TypeScript to `dist/`; `pnpm start` runs built output.
 - `pnpm test` — placeholder; add unit/integration tests as features land.
 - `pm2 start dist/index.js --name ngetikin-selfbot` — run production build on Termux with PM2.
+
+## Feature status (current)
+
+- Voice: auto-join only; TTS announcer/reader disabled sementara (log-only) karena limitasi voice API/connection.
+- Auto emoji: channel-based (EMOJI_CHANNEL_IDS), react 5–20 emoji random; prioritise server non-animated, fallback unicode.
+- Upcoming: daily meme, autoReply, activity rotation.
 
 ## Coding Style & Naming Conventions
 
