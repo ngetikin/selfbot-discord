@@ -5,11 +5,12 @@ const prettierPlugin = require('eslint-plugin-prettier');
 
 module.exports = tseslint.config(
   {
-    ignores: ['dist', 'node_modules'],
+    ignores: ['dist', 'node_modules', 'eslint.config.cjs'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    files: ['**/*.ts'],
     plugins: {
       prettier: prettierPlugin,
     },

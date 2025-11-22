@@ -9,43 +9,43 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 
 ### 🎧 Voice Automation
 
-* Auto join Voice Channel **4 jam** → rest **10 menit** → repeat.
-* State persistence: survive restart Termux.
-* Voice activity indicator (fake speaking).
+- Auto join Voice Channel **4 jam** → rest **10 menit** → repeat.
+- State persistence: survive restart Termux.
+- Voice activity indicator (fake speaking).
 
 ### 🔊 TTS Engine
 
-* Announce user join/leave di VC.
-* Baca pesan teks menjadi suara:
+- Announce user join/leave di VC.
+- Baca pesan teks menjadi suara:
+  - “Kemi menulis: halo guys…”
 
-  * “Kemi menulis: halo guys…”
-* Queue-system agar audio tidak tabrakan.
+- Queue-system agar audio tidak tabrakan.
 
 ### 😂 Daily Meme
 
-* Kirim meme pagi, siang, sore.
-* Source: Meme API + Lahelu scraping.
-* Anti duplicate (hash tracking).
+- Kirim meme pagi, siang, sore.
+- Source: Meme API + Lahelu scraping.
+- Anti duplicate (hash tracking).
 
 ### ⚡ Admin Auto Reply
 
-* Auto reply ke pesan admin.
-* Hapus pesan bot sendiri setelah delay.
-* Rate-limited + safe-guard.
+- Auto reply ke pesan admin.
+- Hapus pesan bot sendiri setelah delay.
+- Rate-limited + safe-guard.
 
 ### 🟢 Custom Activity Rotation
 
-* Presence rotation (listening/playing/watching).
-* Bisa diatur via JSON.
+- Presence rotation (listening/playing/watching).
+- Bisa diatur via JSON.
 
 ### 🧱 Production-Ready Setup
 
-* TypeScript strict mode.
-* ESLint, Prettier, Husky + lint-staged.
-* GitHub Actions CI/CD pipeline:
+- TypeScript strict mode.
+- ESLint, Prettier, Husky + lint-staged.
+- GitHub Actions CI/CD pipeline:
+  - install → lint → build → optional deploy to Termux.
 
-  * install → lint → build → optional deploy to Termux.
-* PM2 with log rotation.
+- PM2 with log rotation.
 
 ---
 
@@ -129,13 +129,13 @@ Use only on **alt accounts** and at your own risk.
 
 ## 🧩 Technologies
 
-* TypeScript
-* discord.js-selfbot-v13
-* @discordjs/voice
-* node-cron
-* cheerio / puppeteer (optional)
-* PM2
-* GitHub Actions
+- TypeScript
+- discord.js-selfbot-v13
+- @discordjs/voice
+- node-cron
+- cheerio / puppeteer (optional)
+- PM2
+- GitHub Actions
 
 ---
 
