@@ -1,0 +1,22 @@
+#!/bin/sh
+
+MSG_FILE="$1"
+
+if [ -z "$MSG_FILE" ] || [ ! -f "$MSG_FILE" ]; then
+  echo "commit-msg hook: message file missing." >&2
+  exit 1
+fi
+
+MSG="$(head -n1 "$MSG_FILE" | tr -d '\r')"
+
+if printf "%s" "$MSG" | grep -qi '^wip'; then
+  echo "WIP commit detected: skipping conventional check."
+  exit 0
+fi
+
+if printf "%s" "$MSG" | grep -Eq '^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|hotfix)(\([^)]+\))?: .+'; then
+  exit 0
+fi
+
+echo "Invalid commit message. Use conventional commits (type(scope): subject). WIP* allowed to bypass." >&2
+exit 1

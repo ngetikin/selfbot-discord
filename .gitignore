@@ -1,0 +1,23 @@
+# dependencies
+node_modules
+
+# builds
+dist
+
+# env
+.env
+.env.local
+
+# logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor
+.vscode
+.idea
+*.swp
+
+# pnpm store (if local)
+.pnpm-store
