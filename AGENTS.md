@@ -9,7 +9,7 @@
 ## Setup & Environment
 
 - Install dependencies with `pnpm install` (Node.js ≥20 preferred).
-- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; add provider keys (TTS, meme APIs) when needed.
+- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; default `LOG_LEVEL=info`; add provider keys (TTS, meme APIs) when needed.
 - Never commit secrets; use local env files and CI secrets for pipelines.
 
 ## Build, Test, and Development Commands

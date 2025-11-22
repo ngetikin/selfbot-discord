@@ -90,6 +90,9 @@ TARGET_GUILD_ID=
 ADMIN_ROLE_IDS=
 TTS_LANG=id-ID
 LOG_LEVEL=info
+
+# Opsional lain
+MEME_API_KEY=
 ```
 
 ### 3. Development mode
