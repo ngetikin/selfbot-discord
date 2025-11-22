@@ -27,7 +27,7 @@ export const handleGroqChat = async (message: Message, ctx: AppContext) => {
     return;
   }
 
-  const model = env.GROQ_MODEL || 'llama-3.1-8b-instant';
+  const model = env.GROQ_MODEL || 'groq/llama-3.2-1b-preview';
   const userContent = stripped.slice(0, MAX_INPUT_CHARS);
   const payload = {
     model,

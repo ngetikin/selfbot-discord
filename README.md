@@ -127,7 +127,7 @@ MEME_API_URL=
 MEME_DEBUG_NOW=
 ACTIVITY_MESSAGES=
 GROQ_API_KEY=
-GROQ_MODEL=llama-3.1-8b-instant
+GROQ_MODEL=groq/llama-3.2-1b-preview
 
 # Opsional lain
 MEME_API_KEY=
