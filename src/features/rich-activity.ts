@@ -19,7 +19,9 @@ type RichConfig = {
   customStatus?: { emoji?: string; text?: string };
 };
 
-export const applyRichActivity = (ctx: AppContext): boolean => {
+const isHttpUrl = (value?: string) => !!value && /^https?:\/\//i.test(value);
+
+export const applyRichActivity = async (ctx: AppContext): Promise<boolean> => {
   const file = join(process.cwd(), 'config', 'activity.json');
   if (!existsSync(file)) return false;
 
@@ -34,15 +36,29 @@ export const applyRichActivity = (ctx: AppContext): boolean => {
   try {
     const rp = new RichPresence(ctx.client)
       .setApplicationId(cfg.applicationId)
-      .setType((cfg.type ?? 0) as any)
+      .setType((cfg.type ?? 0) as unknown as RichPresence['type'])
       .setName(cfg.name ?? '')
       .setDetails(cfg.details ?? '')
       .setState(cfg.state ?? '');
 
     if (cfg.url) rp.setURL(cfg.url);
-    if (cfg.largeImage) rp.setAssetsLargeImage(cfg.largeImage);
+    if (cfg.largeImage) {
+      if (isHttpUrl(cfg.largeImage)) {
+        const [ext] = await RichPresence.getExternal(ctx.client, cfg.applicationId, cfg.largeImage);
+        rp.setAssetsLargeImage(ext.external_asset_path);
+      } else {
+        rp.setAssetsLargeImage(cfg.largeImage);
+      }
+    }
     if (cfg.largeText) rp.setAssetsLargeText(cfg.largeText);
-    if (cfg.smallImage) rp.setAssetsSmallImage(cfg.smallImage);
+    if (cfg.smallImage) {
+      if (isHttpUrl(cfg.smallImage)) {
+        const [ext] = await RichPresence.getExternal(ctx.client, cfg.applicationId, cfg.smallImage);
+        rp.setAssetsSmallImage(ext.external_asset_path);
+      } else {
+        rp.setAssetsSmallImage(cfg.smallImage);
+      }
+    }
     if (cfg.smallText) rp.setAssetsSmallText(cfg.smallText);
     if (cfg.buttons?.length) {
       for (const btn of cfg.buttons.slice(0, 2)) {

@@ -4,6 +4,7 @@ import type { AppContext } from '../core/context';
 const DEFAULT_MEME_API = 'https://candaan-api.vercel.app/api/image/random';
 const FALLBACK_MEME_API = 'https://meme-api.com/gimme';
 const WIB_OFFSET_MS = 7 * 60 * 60 * 1000; // UTC+7
+const SEND_ON_START_ENV = 'MEME_SEND_ON_START';
 
 type MemeResponse = {
   message?: string;
@@ -106,6 +107,9 @@ export const scheduleDailyMeme = (ctx: AppContext) => {
     return;
   }
 
-  void sendMeme();
+  if (process.env[SEND_ON_START_ENV] === 'true') {
+    void sendMeme();
+  }
+
   scheduleNext();
 };
