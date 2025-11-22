@@ -50,7 +50,7 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
   };
 
   const join = throttleJoin(async (channelId: string) => {
-    connection = await client.voice.joinChannel(channelId, { selfDeaf: true });
+    connection = await client.voice.joinChannel(channelId, { selfDeaf: false });
     logger.info('Joined voice channel', { channelId });
     connection.on('disconnect', () => {
       logger.warn('Voice connection disconnected');

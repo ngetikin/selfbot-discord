@@ -7,19 +7,10 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 
 ## ✨ Features
 
-### 🎧 Voice Automation
+### 🎧 Voice Automation (saat ini)
 
-- Auto join Voice Channel **4 jam** → rest **10 menit** → repeat.
-- State persistence: survive restart Termux.
-- Voice activity indicator (fake speaking).
-
-### 🔊 TTS Engine
-
-- Announce user join/leave di VC.
-- Baca pesan teks menjadi suara:
-  - “Kemi menulis: halo guys…”
-
-- Queue-system agar audio tidak tabrakan.
+- Auto join Voice Channel target.
+- TTS announcer/reader dinonaktifkan sementara.
 
 ### 😂 Daily Meme
 
