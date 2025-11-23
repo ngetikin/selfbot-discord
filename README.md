@@ -126,9 +126,6 @@ MEME_DEBUG_NOW=
 ACTIVITY_MESSAGES=
 GROQ_API_KEY=
 GROQ_MODEL=llama-3.2-1b-preview
-
-# Opsional lain
-MEME_API_KEY=
 ```
 
 ### 3. Development mode
@@ -167,6 +164,7 @@ chmod +x scripts/deploy-termux.sh
 Script akan install deps, build, lalu pm2 start + save.
 
 Prereq Termux (script sudah melakukannya):
+
 - `pkg update && pkg upgrade`
 - `pkg install git nodejs-lts ffmpeg`
 - `npm install -g pm2`
