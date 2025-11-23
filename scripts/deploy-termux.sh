@@ -11,16 +11,18 @@ echo "[1/6] Updating Termux packages..."
 pkg update -y >/dev/null
 pkg upgrade -y >/dev/null
 
-echo "[2/6] Installing dependencies (git, nodejs-lts, ffmpeg)..."
-pkg install -y git nodejs-lts ffmpeg >/dev/null
+echo "[2/6] Checking dependencies (git, nodejs-lts, ffmpeg)..."
+command -v git >/dev/null 2>&1 || pkg install -y git >/dev/null
+command -v node >/dev/null 2>&1 || pkg install -y nodejs-lts >/dev/null
+command -v ffmpeg >/dev/null 2>&1 || pkg install -y ffmpeg >/dev/null
 
 echo "[3/6] Enabling corepack and preparing pnpm..."
 corepack enable >/dev/null 2>&1 || true
-corepack prepare pnpm@10.15.0 --activate >/dev/null
+corepack prepare pnpm@10.23.0 --activate >/dev/null
 pnpm --version
 
-echo "[4/6] Installing PM2 globally..."
-npm install -g pm2 >/dev/null
+echo "[4/6] Ensuring PM2 globally..."
+command -v pm2 >/dev/null 2>&1 || npm install -g pm2 >/dev/null
 
 cd "$REPO_DIR"
 echo "[5/6] Installing project deps..."
