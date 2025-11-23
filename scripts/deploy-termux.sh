@@ -30,7 +30,7 @@ echo "[6/6] Building..."
 pnpm build
 
 echo "[PM2] Starting bot..."
-pm2 start dist/index.js --name "$APP_NAME" --update-env || pm2 restart "$APP_NAME" --update-env
+pm2 start dist/index.js --name "$APP_NAME" --update-env --time --log-date-format "YYYY-MM-DD HH:mm:ss" --merge-logs || pm2 restart "$APP_NAME" --update-env --time --log-date-format "YYYY-MM-DD HH:mm:ss" --merge-logs
 pm2 save
 
 echo "[PM2] Setting up auto git pull every 6h..."
@@ -40,5 +40,5 @@ pm2 save
 
 echo "Deploy complete. Commands:"
 echo "  pm2 status"
-echo "  pm2 logs $APP_NAME --lines 50"
+echo "  pm2 logs $APP_NAME --lines 100"
 echo "  pm2 resurrect    # after reboot"
