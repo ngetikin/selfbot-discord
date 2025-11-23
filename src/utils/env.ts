@@ -20,6 +20,9 @@ const envSchema = z.object({
   GROQ_API_KEY: z.string().optional(),
   GROQ_MODEL: z.string().optional(),
   ACTIVITY_MESSAGES: z.string().optional(),
+  RATE_MSGS_PER_MIN: z.string().optional(),
+  RATE_PRESENCE_MIN: z.string().optional(),
+  RATE_VOICE_JOIN_SEC: z.string().optional(),
 });
 
 export const loadEnv = (): AppEnv => {

@@ -28,6 +28,7 @@
 - Daily meme: jika MEME_CHANNEL_ID set, fetch candaan-api image (fallback meme-api), jadwal 08/13/19 WIB; MEME_DEBUG_NOW untuk sekali kirim di start.
 - Activity: rotasi presence (ACTIVITY_MESSAGES) atau rich presence via config/activity.json.
 - Groq chat: mention (tanpa say) balas via Groq; default model `llama-3.2-1b-preview` (fallback otomatis model lain); rate-limit lokal.
+- Rate config via env (opsional): RATE_MSGS_PER_MIN, RATE_PRESENCE_MIN, RATE_VOICE_JOIN_SEC.
 
 ## Coding Style & Naming Conventions
 
