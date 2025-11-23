@@ -166,6 +166,12 @@ chmod +x scripts/deploy-termux.sh
 
 Script akan install deps, build, lalu pm2 start + save.
 
+Prereq Termux (script sudah melakukannya):
+- `pkg update && pkg upgrade`
+- `pkg install git nodejs-lts ffmpeg`
+- `npm install -g pm2`
+- corepack + pnpm
+
 ---
 
 ## 🔐 Warning
