@@ -1,0 +1,29 @@
+import type { AppClient } from '../core/client';
+import type { Logger } from '../utils/logger';
+import type { AppEnv } from '../types/env';
+import type { AppContext } from '../core/context';
+import { scheduleDailyMeme } from '../features/daily-meme.js';
+import { startActivityRotation } from '../features/activity.js';
+import { applyRichActivity } from '../features/rich-activity.js';
+
+export const readyHandler = (client: AppClient, logger: Logger, env: AppEnv, ctx: AppContext) => {
+  client.once('ready', async () => {
+    logger.info('Ready event received', {
+      user: client.user?.tag,
+      guild: env.TARGET_GUILD_ID,
+      voiceChannel: env.VOICE_CHANNEL_ID,
+    });
+    logger.debug('Context ready', {
+      schedulerTasks: ctx.scheduler.snapshot().length,
+      storageKeys: ctx.storage.listKeys(),
+    });
+    setTimeout(() => {
+      ctx.voice
+        .join(env.VOICE_CHANNEL_ID)
+        .catch((err) => logger.warn('Auto-join voice failed', { err }));
+    }, 5_000);
+    scheduleDailyMeme(ctx);
+    const richApplied = await applyRichActivity(ctx);
+    if (!richApplied) startActivityRotation(ctx);
+  });
+};

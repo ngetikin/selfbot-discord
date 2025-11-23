@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BRANCH="$(git symbolic-ref --short HEAD 2>/dev/null || echo "")"
+
+case "$BRANCH" in
+  wip*|WIP*)
+    echo "WIP branch detected: skipping branch name enforcement on push."
+    exit 0
+    ;;
+esac
+
+if [ -n "$BRANCH" ] && \
+   ! printf "%s" "$BRANCH" | grep -Eq '^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|hotfix)/[a-z0-9._-]+$' && \
+   ! printf "%s" "$BRANCH" | grep -Eq '^(main|master|develop|dev)$'; then
+  echo "Invalid branch name '$BRANCH'. Use type/description (feat/xyz) or main/dev." >&2
+  exit 1
+fi

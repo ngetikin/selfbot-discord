@@ -7,75 +7,95 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 
 ## ✨ Features
 
-### 🎧 Voice Automation
+### 🎧 Voice Automation (saat ini)
 
-* Auto join Voice Channel **4 jam** → rest **10 menit** → repeat.
-* State persistence: survive restart Termux.
-* Voice activity indicator (fake speaking).
+- Auto join Voice Channel target.
+- TTS announcer/reader dinonaktifkan sementara (log-only).
 
-### 🔊 TTS Engine
+### 😀 Auto Emoji Reaction (rencana)
 
-* Announce user join/leave di VC.
-* Baca pesan teks menjadi suara:
+- Channel spesifik (EMOJI_CHANNEL_IDS): auto-react 5–20 emoji acak.
+- Prioritas emoji server non-animated; fallback emoji universal.
 
-  * “Kemi menulis: halo guys…”
-* Queue-system agar audio tidak tabrakan.
+### 🧠 Mention Chat (Groq)
+
+- Jika GROQ_API_KEY di-set, mention bot (tanpa prefix `say`) akan dibalas via Groq (default model `llama-3.2-1b-preview`).
+- Rate limit lokal: 1 request / 20 detik per channel; fallback otomatis ke model lain jika tidak tersedia/413/404.
+
+### 😂 Daily Meme (sederhana)
+
+- Jika MEME_CHANNEL_ID di-set, kirim meme dari candaan-api (default) setiap 6 jam.
+
+### 🟢 Activity Rotation
+
+- Jika ACTIVITY_MESSAGES di-set (comma-separated), rotasi presence tiap 5 menit.
+- Opsional rich presence: jika ada `config/activity.json`, bot pakai itu (buttons/gambar/URL) dan melewati rotasi sederhana.
+
+Contoh `config/activity.json`:
+
+```json
+{
+  "applicationId": "367827983903490050",
+  "name": "osu!",
+  "details": "MariannE - Yooh",
+  "state": "Arcade Game",
+  "type": 0,
+  "url": "https://www.youtube.com/watch?v=5icFcPkVzMg",
+  "largeImage": "https://assets.ppy.sh/beatmaps/1550633/covers/list.jpg",
+  "largeText": "Idle",
+  "smallImage": "373370493127884800",
+  "smallText": "click the circles",
+  "buttons": [{ "label": "Beatmap", "url": "https://osu.ppy.sh/beatmapsets/1391659#osu/2873429" }],
+  "customStatus": { "emoji": "😋", "text": "yum" }
+}
+```
 
 ### 😂 Daily Meme
 
-* Kirim meme pagi, siang, sore.
-* Source: Meme API + Lahelu scraping.
-* Anti duplicate (hash tracking).
+- Kirim meme pagi, siang, sore.
+- Source: Meme API + Lahelu scraping.
+- Anti duplicate (hash tracking).
 
 ### ⚡ Admin Auto Reply
 
-* Auto reply ke pesan admin.
-* Hapus pesan bot sendiri setelah delay.
-* Rate-limited + safe-guard.
+- Auto reply ke pesan admin.
+- Hapus pesan bot sendiri setelah delay.
+- Rate-limited + safe-guard.
 
 ### 🟢 Custom Activity Rotation
 
-* Presence rotation (listening/playing/watching).
-* Bisa diatur via JSON.
+- Presence rotation (listening/playing/watching).
+- Bisa diatur via JSON.
 
 ### 🧱 Production-Ready Setup
 
-* TypeScript strict mode.
-* ESLint, Prettier, Husky + lint-staged.
-* GitHub Actions CI/CD pipeline:
+- TypeScript strict mode.
+- ESLint, Prettier, Husky + lint-staged.
+- GitHub Actions CI/CD pipeline:
+  - install → lint → build → optional deploy to Termux.
 
-  * install → lint → build → optional deploy to Termux.
-* PM2 with log rotation.
+- PM2 with log rotation.
 
 ---
 
-## 📁 Project Structure
+## 📁 Project Structure (current skeleton)
 
 ```
 src/
-  config/
   core/
     client.ts
     scheduler.ts
     storage.ts
-    voice/
-      manager.ts
-      tts.ts
-      queue.ts
-      speaking.ts
-  features/
-    voiceAutoJoin/
-    voiceAnnouncer/
-    voiceReader/
-    dailyMeme/
-    autoReply/
-    activity/
-  events/
-  utils/
-  types/
+    voice.ts        # stub; to be expanded
+  events/           # ready, messageCreate, voiceStateUpdate
+  utils/            # env loader (dotenv+zod), logger with redaction
+  types/            # env types
+  features/         # reserved for voiceAutoJoin, announcer, reader, dailyMeme, autoReply, activity
 scripts/
-  deploy-termux.sh
+  (placeholder)
 test/
+  unit/
+  integration/
 ```
 
 ---
@@ -90,7 +110,7 @@ pnpm install
 
 ### 2. Setup environment file
 
-Buat `.env`:
+Buat `.env` (opsional override di `.env.local`):
 
 ```
 TOKEN=
@@ -98,6 +118,14 @@ VOICE_CHANNEL_ID=
 TARGET_GUILD_ID=
 ADMIN_ROLE_IDS=
 TTS_LANG=id-ID
+LOG_LEVEL=info
+EMOJI_CHANNEL_IDS=
+MEME_CHANNEL_ID=
+MEME_API_URL=
+MEME_DEBUG_NOW=
+ACTIVITY_MESSAGES=
+GROQ_API_KEY=
+GROQ_MODEL=llama-3.2-1b-preview
 ```
 
 ### 3. Development mode
@@ -106,17 +134,41 @@ TTS_LANG=id-ID
 pnpm dev
 ```
 
-### 4. Build
+### 4. Lint & format
+
+```sh
+pnpm lint
+pnpm format:check
+```
+
+### 5. Build & run
 
 ```sh
 pnpm build
+pnpm start
 ```
 
-### 5. Run with PM2 (Termux)
+### 6. Run with PM2 (Termux)
 
 ```sh
 pm2 start dist/index.js --name ngetikin-selfbot
 ```
+
+### Deploy via script (Termux)
+
+```sh
+chmod +x scripts/deploy-termux.sh
+./scripts/deploy-termux.sh
+```
+
+Script akan install deps, build, lalu pm2 start + save.
+
+Prereq Termux (script sudah melakukannya):
+
+- `pkg update && pkg upgrade`
+- `pkg install git nodejs-lts ffmpeg`
+- `npm install -g pm2`
+- corepack + pnpm
 
 ---
 
@@ -129,13 +181,13 @@ Use only on **alt accounts** and at your own risk.
 
 ## 🧩 Technologies
 
-* TypeScript
-* discord.js-selfbot-v13
-* @discordjs/voice
-* node-cron
-* cheerio / puppeteer (optional)
-* PM2
-* GitHub Actions
+- TypeScript
+- discord.js-selfbot-v13
+- @discordjs/voice
+- node-cron
+- cheerio / puppeteer (optional)
+- PM2
+- GitHub Actions
 
 ---
 
