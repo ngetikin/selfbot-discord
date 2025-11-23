@@ -169,6 +169,7 @@ Prereq Termux (script sudah melakukannya):
 - `pkg install git nodejs-lts ffmpeg`
 - `npm install -g pm2`
 - corepack + pnpm
+- PM2 log rotation: script set `pm2:logs/max_size 10M`
 
 ---
 

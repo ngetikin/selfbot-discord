@@ -55,4 +55,4 @@
 - Selfbot usage violates Discord TOS; restrict to alt accounts and private guilds.
 - Sanitize logs; never print tokens, channel IDs, or user IDs in plaintext.
 - For Termux deploys, keep `pm2 save`/`pm2 resurrect` steps documented in `scripts/` if added; rotate logs periodically.
-- Termux deploy helper: `scripts/deploy-termux.sh` (pkg update/upgrade, install git/nodejs-lts/ffmpeg, pnpm, pm2 global, build, pm2 start+save, auto git pull setiap 6 jam).
+- Termux deploy helper: `scripts/deploy-termux.sh` (pkg update/upgrade, install git/nodejs-lts/ffmpeg, pnpm, pm2 global, build, pm2 start+save, log rotation 10M, auto git pull setiap 6 jam).

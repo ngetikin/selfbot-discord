@@ -33,6 +33,9 @@ echo "[PM2] Starting bot..."
 pm2 start dist/index.js --name "$APP_NAME" --update-env --time --log-date-format "YYYY-MM-DD HH:mm:ss" --merge-logs || pm2 restart "$APP_NAME" --update-env --time --log-date-format "YYYY-MM-DD HH:mm:ss" --merge-logs
 pm2 save
 
+echo "[PM2] Setting log rotation to 10M..."
+pm2 set pm2:logs/max_size 10M >/dev/null
+
 echo "[PM2] Setting up auto git pull every 6h..."
 pm2 delete "$AUTO_PULL_NAME" >/dev/null 2>&1 || true
 pm2 start bash --name "$AUTO_PULL_NAME" -- -lc "cd '$REPO_DIR' && while true; do git pull --rebase; sleep $AUTO_PULL_INTERVAL; done"
