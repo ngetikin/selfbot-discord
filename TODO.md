@@ -60,3 +60,4 @@ v0.8 Review & backlog
 - Jalankan `pnpm lint && pnpm test && pnpm build`; perbaiki isu.
 - Audit rate-limit config (msg ≤5/menit/channel, presence ≥5m, voice join ≥30s) dan tambahkan ke config/env.
 - Susun backlog lanjutan: moderasi ringan, dashboard kecil, opsi provider TTS lain jika perlu; evaluasi re-enable voice announcer/reader bila koneksi/dukungan memadai.
+- Env opsional untuk rate-limit sudah disediakan: RATE_MSGS_PER_MIN, RATE_PRESENCE_MIN, RATE_VOICE_JOIN_SEC.

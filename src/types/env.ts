@@ -12,4 +12,7 @@ export type AppEnv = {
   GROQ_API_KEY?: string;
   GROQ_MODEL?: string;
   ACTIVITY_MESSAGES?: string;
+  RATE_MSGS_PER_MIN?: string;
+  RATE_PRESENCE_MIN?: string;
+  RATE_VOICE_JOIN_SEC?: string;
 };

@@ -28,6 +28,7 @@
 - Daily meme: jika MEME_CHANNEL_ID set, fetch candaan-api image (fallback meme-api), jadwal 08/13/19 WIB; MEME_DEBUG_NOW untuk sekali kirim di start.
 - Activity: rotasi presence (ACTIVITY_MESSAGES) atau rich presence via config/activity.json.
 - Groq chat: mention (tanpa say) balas via Groq; default model `llama-3.2-1b-preview` (fallback otomatis model lain); rate-limit lokal.
+- Rate config via env (opsional): RATE_MSGS_PER_MIN, RATE_PRESENCE_MIN, RATE_VOICE_JOIN_SEC.
 
 ## Coding Style & Naming Conventions
 
@@ -55,4 +56,4 @@
 - Selfbot usage violates Discord TOS; restrict to alt accounts and private guilds.
 - Sanitize logs; never print tokens, channel IDs, or user IDs in plaintext.
 - For Termux deploys, keep `pm2 save`/`pm2 resurrect` steps documented in `scripts/` if added; rotate logs periodically.
-- Termux deploy helper: `scripts/deploy-termux.sh` (pkg update/upgrade, install git/nodejs-lts/ffmpeg, pnpm, pm2 global, build, pm2 start+save, auto git pull setiap 6 jam).
+- Termux deploy helper: `scripts/deploy-termux.sh` (pkg update/upgrade, install git/nodejs-lts/ffmpeg, pnpm, pm2 global, build, pm2 start+save, log rotation 10M, auto git pull setiap 6 jam).

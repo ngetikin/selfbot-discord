@@ -124,6 +124,9 @@ MEME_CHANNEL_ID=
 MEME_API_URL=
 MEME_DEBUG_NOW=
 ACTIVITY_MESSAGES=
+RATE_MSGS_PER_MIN=
+RATE_PRESENCE_MIN=
+RATE_VOICE_JOIN_SEC=
 GROQ_API_KEY=
 GROQ_MODEL=llama-3.2-1b-preview
 ```
@@ -169,6 +172,7 @@ Prereq Termux (script sudah melakukannya):
 - `pkg install git nodejs-lts ffmpeg`
 - `npm install -g pm2`
 - corepack + pnpm
+- PM2 log rotation: script set `pm2:logs/max_size 10M`
 
 ---
 

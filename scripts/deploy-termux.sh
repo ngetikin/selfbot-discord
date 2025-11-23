@@ -11,16 +11,18 @@ echo "[1/6] Updating Termux packages..."
 pkg update -y >/dev/null
 pkg upgrade -y >/dev/null
 
-echo "[2/6] Installing dependencies (git, nodejs-lts, ffmpeg)..."
-pkg install -y git nodejs-lts ffmpeg >/dev/null
+echo "[2/6] Checking dependencies (git, nodejs-lts, ffmpeg)..."
+command -v git >/dev/null 2>&1 || pkg install -y git >/dev/null
+command -v node >/dev/null 2>&1 || pkg install -y nodejs-lts >/dev/null
+command -v ffmpeg >/dev/null 2>&1 || pkg install -y ffmpeg >/dev/null
 
 echo "[3/6] Enabling corepack and preparing pnpm..."
 corepack enable >/dev/null 2>&1 || true
-corepack prepare pnpm@10.15.0 --activate >/dev/null
+corepack prepare pnpm@10.23.0 --activate >/dev/null
 pnpm --version
 
-echo "[4/6] Installing PM2 globally..."
-npm install -g pm2 >/dev/null
+echo "[4/6] Ensuring PM2 globally..."
+command -v pm2 >/dev/null 2>&1 || npm install -g pm2 >/dev/null
 
 cd "$REPO_DIR"
 echo "[5/6] Installing project deps..."
@@ -32,6 +34,9 @@ pnpm build
 echo "[PM2] Starting bot..."
 pm2 start dist/index.js --name "$APP_NAME" --update-env --time --log-date-format "YYYY-MM-DD HH:mm:ss" --merge-logs || pm2 restart "$APP_NAME" --update-env --time --log-date-format "YYYY-MM-DD HH:mm:ss" --merge-logs
 pm2 save
+
+echo "[PM2] Setting log rotation to 10M..."
+pm2 set pm2:logs/max_size 10M >/dev/null
 
 echo "[PM2] Setting up auto git pull every 6h..."
 pm2 delete "$AUTO_PULL_NAME" >/dev/null 2>&1 || true
