@@ -4,7 +4,7 @@ set -euo pipefail
 
 APP_NAME="ngetikin-selfbot"
 AUTO_PULL_NAME="ngetikin-autopull"
-AUTO_PULL_INTERVAL=21600 # 6 hours in seconds
+AUTO_PULL_INTERVAL=14400 # 4 hours in seconds
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 echo "[1/6] Updating Termux packages..."
