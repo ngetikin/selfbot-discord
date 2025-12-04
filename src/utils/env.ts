@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 import { z } from 'zod';
 import type { AppEnv } from '../types/env';
 
+const MAX_ACTIVITY_ENTRIES = 20;
+
 // Load env from files. .env.local overrides .env.
 config({ path: '.env' });
 config({ path: '.env.local', override: true });
@@ -19,10 +21,23 @@ const envSchema = z.object({
   MEME_DEBUG_NOW: z.string().optional(),
   GROQ_API_KEY: z.string().optional(),
   GROQ_MODEL: z.string().optional(),
-  ACTIVITY_MESSAGES: z.string().optional(),
-  RATE_MSGS_PER_MIN: z.string().optional(),
-  RATE_PRESENCE_MIN: z.string().optional(),
-  RATE_VOICE_JOIN_SEC: z.string().optional(),
+  ACTIVITY_MESSAGES: z
+    .string()
+    .optional()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const entries = val
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+        return entries.length <= MAX_ACTIVITY_ENTRIES;
+      },
+      `ACTIVITY_MESSAGES supports up to ${MAX_ACTIVITY_ENTRIES} entries`,
+    ),
+  RATE_MSGS_PER_MIN: z.string().default('5'),
+  RATE_PRESENCE_MIN: z.string().default('5'),
+  RATE_VOICE_JOIN_SEC: z.string().default('30'),
 });
 
 export const loadEnv = (): AppEnv => {

@@ -13,6 +13,9 @@ describe('env defaults', () => {
     };
     const env = loadEnv();
     expect(env.LOG_LEVEL).toBe('info');
+    expect(env.RATE_MSGS_PER_MIN).toBe('5');
+    expect(env.RATE_PRESENCE_MIN).toBe('5');
+    expect(env.RATE_VOICE_JOIN_SEC).toBe('30');
     process.env = original;
   });
 });

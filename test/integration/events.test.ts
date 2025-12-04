@@ -14,6 +14,9 @@ describe('events wiring', () => {
       TTS_LANG: 'id-ID',
       TOKEN: 'x',
       ADMIN_ROLE_IDS: 'r',
+      RATE_MSGS_PER_MIN: '5',
+      RATE_PRESENCE_MIN: '5',
+      RATE_VOICE_JOIN_SEC: '30',
     };
     const ctx = {
       scheduler: { snapshot: () => [] },

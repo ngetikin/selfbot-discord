@@ -19,6 +19,9 @@ describe('daily meme scheduler', () => {
       LOG_LEVEL: 'info',
       MEME_CHANNEL_ID: 'chan',
       MEME_DEBUG_NOW: 'true',
+      RATE_MSGS_PER_MIN: '5',
+      RATE_PRESENCE_MIN: '5',
+      RATE_VOICE_JOIN_SEC: '30',
     },
     client: {
       channels: {
