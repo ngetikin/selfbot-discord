@@ -1,14 +1,14 @@
 {
   "applicationId": "367827983903490050",
-  "name": "osu!",
-  "details": "MariannE - Yooh",
-  "state": "Arcade Game",
+  "name": "Ngetikin - Jasa Pembuatan Website Profesional & Terjangkau",
+  "details": "Butuh website keren? Kami bantu dari desain hingga online!",
+  "state": "Digital Web Agency",
   "type": 0,
-  "url": "https://www.youtube.com/watch?v=5icFcPkVzMg",
-  "largeImage": "https://assets.ppy.sh/beatmaps/1550633/covers/list.jpg",
+  "url": "https://linktr.ee/ngetikin",
+  "largeImage": "https://github.com/ngetikin/storage/blob/main/ngetikin-logo-v1.png",
   "largeText": "Idle",
   "smallImage": "373370493127884800",
   "smallText": "click the circles",
-  "buttons": [{ "label": "Beatmap", "url": "https://osu.ppy.sh/beatmapsets/1391659#osu/2873429" }],
+  "buttons": [{ "label": "Hubungi Kami", "url": "https://wa.me/6285117121912" }],
   "customStatus": { "emoji": "😋", "text": "yum" }
 }
