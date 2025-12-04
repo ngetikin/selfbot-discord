@@ -40,10 +40,6 @@ src/
   features/
     voiceAutoJoin/
       service.ts   # join 4h, rest 10m, persistence
-    voiceAnnouncer/
-      handler.ts   # join/leave event -> TTS phrase
-    voiceReader/
-      handler.ts   # text message -> TTS (filter length, rate limit)
     dailyMeme/
       service.ts   # fetch random meme (API + Lahelu scraping), anti duplicate
     autoReply/
@@ -83,26 +79,7 @@ scripts/
   - Gunakan `setTimeout` + cron fallback, atau `node-cron` job yang memeriksa state tiap menit.
   - Handle error join (channel missing, permission denied), log minimal.
 
-### 4.2 Voice Join/Leave Announcer
-
-- **Trigger**: `voiceStateUpdate`.
-- **Logic**:
-  - Deteksi user join/leave target VC.
-  - Format text (mis. “Kemi join voice”) sesuai bahasa/voice env.
-  - Kirim ke TTS queue → putar di VC.
-- **Config**: `ANNOUNCER_VOICE`, `ANNOUNCER_LANG`.
-- **Rate limit**: cegah spam jika user spam connect/disconnect.
-
-### 4.3 Voice Message Reader
-
-- **Trigger**: `messageCreate` (text). Filter per channel + panjang pesan.
-- **Flow**:
-  - Format “{username} menulis: {content}”.
-  - Sanitasi mention/simbol sensitif.
-  - Masukkan ke TTS queue (per channel).
-- **Rate limiting**: per user/per channel.
-
-### 4.4 Daily Meme Sender (3x/day)
+### 4.2 Daily Meme Sender (3x/day)
 
 - **Schedule**: misal 06:00, 12:00, 18:00 WIB (node-cron).
 - **Sources**: Meme API (Reddit, MemeAPI) + scraping Lahelu.
@@ -110,7 +87,7 @@ scripts/
 - **Randomization**: pilih sumber acak tiap slot.
 - **Resiliency**: fallback text jika API down.
 
-### 4.5 Auto Reply for Admin Only
+### 4.3 Auto Reply for Admin Only
 
 - **Trigger**: `messageCreate`.
 - **Logic**:
@@ -118,13 +95,13 @@ scripts/
   - Reply template (bisa random). Hapus sendiri setelah delay pendek.
   - Rate limit (mis. 1 reply / 30 detik per admin).
 
-### 4.6 Custom Activity Rotator
+### 4.4 Custom Activity Rotator
 
 - **Config**: list aktivitas (type + text) di JSON/env.
 - **Rotation**: update presence tiap X menit.
 - **Implementation**: service `PresenceRotator` pakai `setInterval`.
 
-### 4.7 Voice Activity Indicator
+### 4.5 Voice Activity Indicator
 
 - **Goal**: tunjukkan “speaking” saat audio/tts jalan.
 - **Approach**:
@@ -188,7 +165,7 @@ scripts/
 
 - `.env` wajib, jangan commit.
 - Anti-spam:
-  - throttle announcer dan voice reader.
+  - throttle voice join/playback.
   - randomize delay auto reply.
   - batasi channel/role target.
 - Logging sanitasi ID/token.
@@ -208,7 +185,7 @@ scripts/
 
 1. **Core bootstrap**: client, env loader, logger, storage.
 2. **Voice manager + scheduler (4h/10m)**.
-3. **TTS subsystem + queue** (announcer & reader share).
+3. **TTS subsystem + queue**.
 4. **Daily meme 3x/day** (multi sources + anti duplicates).
 5. **Auto reply admin + rate limit**.
 6. **Activity rotator + voice indicator**.

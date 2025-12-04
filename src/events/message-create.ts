@@ -5,8 +5,6 @@ import type { AppContext } from '../core/context';
 import { handleAutoEmoji } from '../features/auto-emoji.js';
 import { handleEchoTag } from '../features/echo-tag.js';
 import { handleGroqChat } from '../features/chat-groq.js';
-
-// Voice reader disabled: only log self messages; auto-emoji for target channels.
 export const messageCreateHandler = (client: AppClient, logger: Logger, ctx: AppContext) => {
   client.on('messageCreate', (message: Message) => {
     void handleAutoEmoji(message, ctx);
