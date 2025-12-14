@@ -6,11 +6,14 @@ import { loadEnv } from './utils/env.js';
 import { createLogger } from './utils/logger.js';
 import { registerEvents } from './events/index.js';
 import type { AppContext } from './core/context';
+import { restoreScheduler, startSchedulerPersistence } from './core/scheduler-persist.js';
 
-const handleShutdown = (ctx: AppContext) => {
+const handleShutdown = (ctx: AppContext, persist?: { saveNow: () => void; stop: () => void }) => {
   const { logger, scheduler, voice, client } = ctx;
   return async () => {
     logger.info('Shutting down...');
+    persist?.saveNow();
+    persist?.stop();
     scheduler.shutdown();
     try {
       await voice.leave();
@@ -36,6 +39,9 @@ const main = async () => {
   const voice = createVoiceService({ client, env, logger });
   const storage = new FileStorage('data');
 
+  restoreScheduler(scheduler, storage);
+  const schedulerPersist = startSchedulerPersistence(scheduler, storage);
+
   const ctx: AppContext = {
     client,
     scheduler,
@@ -47,7 +53,7 @@ const main = async () => {
 
   registerEvents(client, logger, env, ctx);
 
-  const shutdown = handleShutdown(ctx);
+  const shutdown = handleShutdown(ctx, schedulerPersist);
   process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
 

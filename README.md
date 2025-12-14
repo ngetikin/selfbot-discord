@@ -10,9 +10,8 @@ Project ini mencakup fitur TTS, voice automation, daily meme system, dan berbaga
 ### 🎧 Voice Automation (saat ini)
 
 - Auto join Voice Channel target.
-- TTS announcer/reader dinonaktifkan sementara (log-only).
 
-### 😀 Auto Emoji Reaction (rencana)
+### 😀 Auto Emoji Reaction
 
 - Channel spesifik (EMOJI_CHANNEL_IDS): auto-react 5–20 emoji acak.
 - Prioritas emoji server non-animated; fallback emoji universal.
@@ -90,7 +89,7 @@ src/
   events/           # ready, messageCreate, voiceStateUpdate
   utils/            # env loader (dotenv+zod), logger with redaction
   types/            # env types
-  features/         # reserved for voiceAutoJoin, announcer, reader, dailyMeme, autoReply, activity
+  features/         # reserved for voiceAutoJoin, dailyMeme, autoReply, activity, emoji, Groq
 scripts/
   (placeholder)
 test/

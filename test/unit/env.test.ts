@@ -24,4 +24,19 @@ describe('loadEnv', () => {
     expect(env.TTS_LANG).toBe('id-ID');
     process.env = original;
   });
+
+  it('rejects too many activity messages', () => {
+    const original = { ...process.env };
+    const longList = Array.from({ length: 25 }, (_, i) => `a${i}`).join(',');
+    process.env = {
+      TOKEN: 'x',
+      VOICE_CHANNEL_ID: '1',
+      TARGET_GUILD_ID: '2',
+      ADMIN_ROLE_IDS: '3',
+      TTS_LANG: 'id-ID',
+      ACTIVITY_MESSAGES: longList,
+    };
+    expect(() => loadEnv()).toThrow();
+    process.env = original;
+  });
 });

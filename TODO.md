@@ -1,7 +1,7 @@
 v0.0 Scope & guardrail
 
 - Tegaskan risiko selfbot (TOS), gunakan akun alt; single guild privat, Termux-only.
-- Fitur target: voice (auto join, announcer, reader), fun (daily meme), utility (autoReply, activity).
+- Fitur target: voice (auto join), fun (daily meme), utility (autoReply, activity).
 - Keputusan TTS: `espeak-ng` offline; siapkan adaptor spawn + opsi voice/lang dari env.
 
 v0.1 Bootstrap repo
@@ -30,7 +30,6 @@ v0.3 Core services
 v0.4 Fitur voice
 
 - voiceAutoJoin: on ready/reconnect join VOICE_CHANNEL_ID dengan permission check dan cooldown.
-- (Ditunda) voiceAnnouncer/voiceReader: dinonaktifkan sementara karena keterbatasan koneksi/voice API; log-only.
 - Rate-limit guard: join ≥30s, retry join terbatas.
 
 v0.5 Fitur fun/utility
@@ -59,5 +58,10 @@ v0.8 Review & backlog
 
 - Jalankan `pnpm lint && pnpm test && pnpm build`; perbaiki isu.
 - Audit rate-limit config (msg ≤5/menit/channel, presence ≥5m, voice join ≥30s) dan tambahkan ke config/env.
-- Susun backlog lanjutan: moderasi ringan, dashboard kecil, opsi provider TTS lain jika perlu; evaluasi re-enable voice announcer/reader bila koneksi/dukungan memadai.
-- Env opsional untuk rate-limit sudah disediakan: RATE_MSGS_PER_MIN, RATE_PRESENCE_MIN, RATE_VOICE_JOIN_SEC.
+- Susun backlog lanjutan: moderasi ringan, dashboard kecil, opsi provider TTS lain jika perlu.
+
+v0.9 Stabilitas & tes
+
+- Persist scheduler tasks ke `data/` agar aman restart.
+- Tambah coverage test untuk auto-emoji, Groq chat, activity rotator.
+- Validasi env: batas jumlah ACTIVITY_MESSAGES, default rate config (msgs/min, presence min, voice join sec).

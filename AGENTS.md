@@ -2,14 +2,14 @@
 
 ## Project Structure & Modules
 
-- Core code lives in `src/`: `core/` (client, scheduler, storage, voice), `features/` (voiceAutoJoin, voiceAnnouncer, voiceReader, dailyMeme, autoReply, activity), `events/`, `utils/`, `types/`.
+- Core code lives in `src/`: `core/` (client, scheduler, storage, voice), `features/` (voiceAutoJoin, dailyMeme, autoReply, activity, autoEmoji, Groq chat), `events/`, `utils/`, `types/`.
 - Deployment helpers sit in `scripts/` (e.g., `deploy-termux.sh` for Termux + PM2).
 - Tests belong in `test/` (unit and integration). Keep fixtures small to avoid slowing CI.
 
 ## Setup & Environment
 
 - Install dependencies with `pnpm install` (Node.js ≥20 preferred).
-- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; default `LOG_LEVEL=info`; optional `EMOJI_CHANNEL_IDS` (auto-emoji), `MEME_CHANNEL_ID` (daily meme), `MEME_API_URL` (override source, default candaan-api receh), `ACTIVITY_MESSAGES` (presence rotation); add provider keys (TTS, meme APIs) when needed.
+- Env loading order: `.env` then `.env.local` overrides; required keys: `TOKEN`, `VOICE_CHANNEL_ID`, `TARGET_GUILD_ID`, `ADMIN_ROLE_IDS`, `TTS_LANG=id-ID`; default `LOG_LEVEL=info`; optional `EMOJI_CHANNEL_IDS` (auto-emoji), `MEME_CHANNEL_ID` (daily meme), `MEME_API_URL` (override source), `ACTIVITY_MESSAGES` (presence rotation, max 20 entries); add provider keys (meme APIs, Groq). Rate configs now default to `RATE_MSGS_PER_MIN=5`, `RATE_PRESENCE_MIN=5`, `RATE_VOICE_JOIN_SEC=30`.
 - Never commit secrets; use local env files and CI secrets for pipelines.
 
 ## Build, Test, and Development Commands
@@ -17,18 +17,18 @@
 - `pnpm dev` — start the bot in watch/dev mode (uses `.env/.env.local`).
 - `pnpm lint` — run ESLint checks; `pnpm format` / `format:check` for Prettier.
 - `pnpm build` — compile TypeScript to `dist/`; `pnpm start` runs built output.
-- `pnpm test` — placeholder; add unit/integration tests as features land.
+- `pnpm test` — unit + integration (scheduler, logger, env, voice join, daily meme, emoji/Groq/activity).
 - `pm2 start dist/index.js --name ngetikin-selfbot` — run production build on Termux with PM2.
 
 ## Feature status (current)
 
-- Voice: auto-join only; TTS announcer/reader disabled sementara (log-only) karena limitasi voice API/connection.
+- Voice: auto-join only; tidak ada announcer/reader.
 - Auto emoji: channel-based (EMOJI_CHANNEL_IDS), react 5–20 emoji random; prioritise server non-animated, fallback unicode.
 - Mention echo: admin mention + prefix `say` -> hapus pesan & kirim ulang teks.
 - Daily meme: jika MEME_CHANNEL_ID set, fetch candaan-api image (fallback meme-api), jadwal 08/13/19 WIB; MEME_DEBUG_NOW untuk sekali kirim di start.
 - Activity: rotasi presence (ACTIVITY_MESSAGES) atau rich presence via config/activity.json.
 - Groq chat: mention (tanpa say) balas via Groq; default model `llama-3.2-1b-preview` (fallback otomatis model lain); rate-limit lokal.
-- Rate config via env (opsional): RATE_MSGS_PER_MIN, RATE_PRESENCE_MIN, RATE_VOICE_JOIN_SEC.
+- Scheduler: persisten ke `data/` untuk bertahan restart.
 
 ## Coding Style & Naming Conventions
 
