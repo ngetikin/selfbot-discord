@@ -83,4 +83,16 @@ describe('Groq chat handler', () => {
     expect(global.fetch).toHaveBeenCalledTimes(2);
     expect(replySpy).toHaveBeenCalledWith('fallback');
   });
+
+  it('mengabaikan pesan dari diri sendiri', async () => {
+    const ctx = makeCtx();
+    const message = makeMessage();
+    message.author = { id: 'me' } as any;
+    const { handleGroqChat } = await import('../../src/features/chat-groq');
+    global.fetch = vi.fn();
+
+    await handleGroqChat(message, ctx);
+
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
 });

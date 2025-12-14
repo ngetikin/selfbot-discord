@@ -48,9 +48,36 @@ describe('daily meme scheduler', () => {
   afterEach(() => {
     sendMock.mockClear();
     vi.restoreAllMocks();
+    vi.unstubAllGlobals?.();
+  });
+
+  it('menandai @everyone dan react emoji acak ketika mengirim meme', async () => {
+    const reactMock = vi.fn().mockResolvedValue(undefined);
+    const messageMock = { react: reactMock } as any; // guild undefined -> pakai default emoji
+    sendMock.mockResolvedValueOnce(messageMock);
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ data: { url: 'http://x', title: 't' } }),
+    } as unknown as Response);
+    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0); // deterministik: 5 emoji pertama
+
+    scheduleDailyMeme(ctx);
+    await wait(30);
+
+    const warnMock = ctx.logger.warn as unknown as ReturnType<typeof vi.fn>;
+
+    expect(sendMock).toHaveBeenCalledWith({
+      content: '@everyone',
+      files: ['http://x'],
+    });
+    expect(warnMock).not.toHaveBeenCalled();
+    expect(reactMock).toHaveBeenCalledTimes(5);
+    expect(randomSpy).toHaveBeenCalled();
   });
 
   it('sends once on debug now', async () => {
+    const reactMock = vi.fn().mockResolvedValue(undefined);
+    sendMock.mockResolvedValueOnce({ react: reactMock } as any);
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ data: { url: 'http://x', title: 't' } }),
