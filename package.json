@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "prebuild": "lint-staged",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts",
     "lint:fix": "pnpm lint --fix",
@@ -24,8 +25,7 @@
   "lint-staged": {
     "*.{ts,js}": [
       "eslint . --ext .ts --fix",
-      "prettier --write \"**/*.{ts,js,json,md}\"",
-      "pnpm build"
+      "prettier --write \"**/*.{ts,js,json,md}\""
     ]
   },
   "dependencies": {
