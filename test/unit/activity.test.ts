@@ -40,12 +40,21 @@ describe('activity rotation', () => {
     startActivityRotation(ctx as any);
 
     expect(ctx.client.user.setActivity).toHaveBeenCalledTimes(1);
-    expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({ name: 'Play1', type: 'PLAYING' });
+    expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({
+      name: 'Play1',
+      type: 'PLAYING',
+    });
 
     vi.advanceTimersByTime(5 * 60 * 1000);
-    expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({ name: 'Play2', type: 'PLAYING' });
+    expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({
+      name: 'Play2',
+      type: 'PLAYING',
+    });
 
     vi.advanceTimersByTime(5 * 60 * 1000);
-    expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({ name: 'Play1', type: 'PLAYING' });
+    expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({
+      name: 'Play1',
+      type: 'PLAYING',
+    });
   });
 });

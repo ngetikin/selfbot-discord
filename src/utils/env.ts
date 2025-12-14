@@ -24,17 +24,14 @@ const envSchema = z.object({
   ACTIVITY_MESSAGES: z
     .string()
     .optional()
-    .refine(
-      (val) => {
-        if (!val) return true;
-        const entries = val
-          .split(',')
-          .map((s) => s.trim())
-          .filter(Boolean);
-        return entries.length <= MAX_ACTIVITY_ENTRIES;
-      },
-      `ACTIVITY_MESSAGES supports up to ${MAX_ACTIVITY_ENTRIES} entries`,
-    ),
+    .refine((val) => {
+      if (!val) return true;
+      const entries = val
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      return entries.length <= MAX_ACTIVITY_ENTRIES;
+    }, `ACTIVITY_MESSAGES supports up to ${MAX_ACTIVITY_ENTRIES} entries`),
   RATE_MSGS_PER_MIN: z.string().default('5'),
   RATE_PRESENCE_MIN: z.string().default('5'),
   RATE_VOICE_JOIN_SEC: z.string().default('30'),

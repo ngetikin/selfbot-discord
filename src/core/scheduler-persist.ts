@@ -19,7 +19,7 @@ const safeLoadTasks = (storage: StorageAdapter, key: string): SchedulerTask[] =>
   const fallback: SchedulerTask[] = [];
   try {
     return storage.readJson<SchedulerTask[]>(key, fallback);
-  } catch (_err) {
+  } catch {
     return fallback;
   }
 };
