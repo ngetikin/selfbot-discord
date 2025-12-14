@@ -24,7 +24,8 @@
   "lint-staged": {
     "*.{ts,js}": [
       "eslint . --ext .ts --fix",
-      "prettier --write \"**/*.{ts,js,json,md}\""
+      "prettier --write \"**/*.{ts,js,json,md}\"",
+      "pnpm build"
     ]
   },
   "dependencies": {
