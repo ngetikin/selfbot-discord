@@ -4,7 +4,8 @@ set -euo pipefail
 
 APP_NAME="ngetikin-selfbot"
 AUTO_PULL_NAME="ngetikin-autopull"
-AUTO_PULL_INTERVAL=21600 # 6 hours in seconds
+AUTO_RESTART_NAME="ngetikin-autorestart"
+AUTO_INTERVAL=14400 # default 4 hours in seconds
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 echo "[1/6] Updating Termux packages..."
@@ -38,9 +39,13 @@ pm2 save
 echo "[PM2] Setting log rotation to 10M..."
 pm2 set pm2:logs/max_size 10M >/dev/null
 
-echo "[PM2] Setting up auto git pull every 6h..."
+echo "[PM2] Setting up auto git pull every $((AUTO_INTERVAL / 3600))h..."
 pm2 delete "$AUTO_PULL_NAME" >/dev/null 2>&1 || true
-pm2 start bash --name "$AUTO_PULL_NAME" -- -lc "cd '$REPO_DIR' && while true; do git pull --rebase; sleep $AUTO_PULL_INTERVAL; done"
+pm2 start bash --name "$AUTO_PULL_NAME" -- -lc "cd '$REPO_DIR' && while true; do git pull --rebase; sleep $AUTO_INTERVAL; done"
+
+echo "[PM2] Setting up periodic restart every $((AUTO_INTERVAL / 3600))h..."
+pm2 delete "$AUTO_RESTART_NAME" >/dev/null 2>&1 || true
+pm2 start bash --name "$AUTO_RESTART_NAME" -- -lc "while true; do sleep $AUTO_INTERVAL; pm2 restart '$APP_NAME' --update-env; done"
 pm2 save
 
 echo "Deploy complete. Commands:"

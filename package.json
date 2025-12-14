@@ -1,11 +1,12 @@
 {
   "name": "selfbot-discord",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Discord voice-focused selfbot for Termux (TypeScript).",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "prebuild": "lint-staged",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts",
     "lint:fix": "pnpm lint --fix",

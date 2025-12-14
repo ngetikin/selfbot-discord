@@ -31,6 +31,9 @@ const env = {
   ADMIN_ROLE_IDS: 'r',
   TTS_LANG: 'id-ID',
   LOG_LEVEL: 'info',
+  RATE_MSGS_PER_MIN: '5',
+  RATE_PRESENCE_MIN: '5',
+  RATE_VOICE_JOIN_SEC: '30',
 };
 
 const logger = {

@@ -19,9 +19,10 @@ const isRateLimited = (channelId: string) => {
 };
 
 export const handleGroqChat = async (message: Message, ctx: AppContext) => {
-  const { env, logger } = ctx;
+  const { env, logger, client } = ctx;
   if (!env.GROQ_API_KEY) return;
-  if (!message.mentions.has(ctx.client.user?.id ?? '')) return;
+  if (message.author.id === client.user?.id) return;
+  if (!message.mentions.has(client.user?.id ?? '')) return;
 
   const stripped = message.content.replace(/<@!?(\d+)>/g, '').trim();
   if (!stripped) return;
