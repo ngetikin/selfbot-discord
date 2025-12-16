@@ -19,6 +19,7 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
   const queue = new Collection<string, VoiceQueueItem>();
   let processing = false;
   let connection: VoiceConnection | null = null;
+  let leaveTimer: NodeJS.Timeout | null = null;
 
   const enqueue = (item: Omit<VoiceQueueItem, 'id'>): VoiceQueueItem => {
     const id = randomUUID();
@@ -105,6 +106,20 @@ export const createVoiceService = ({ client, env, logger }: VoiceDeps): VoiceSer
       voiceChannelId: env.VOICE_CHANNEL_ID,
       ttsLang: env.TTS_LANG,
     });
+
+    if (!leaveTimer) {
+      leaveTimer = setInterval(
+        () => {
+          void (async () => {
+            await leave();
+            setTimeout(() => {
+              void join(env.VOICE_CHANNEL_ID);
+            }, 60_000);
+          })();
+        },
+        30 * 60 * 1000,
+      );
+    }
   };
 
   return {
