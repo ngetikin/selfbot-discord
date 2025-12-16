@@ -1,13 +1,26 @@
 import type { Message } from 'discord.js-selfbot-v13';
 import type { AppContext } from '../core/context';
 
-const RATE_LIMIT_MS = 20_000;
+const RATE_LIMIT_MS = 10_000;
 const lastCallPerChannel = new Map<string, number>();
 const MAX_INPUT_CHARS = 500;
 const MODEL_CANDIDATES = [
   'llama-3.3-8b-instant',
   'llama-3.3-70b-versatile',
   'llama-3.1-8b-instant',
+];
+
+const MOOD_REPLIES = [
+  'Lagi bad mood, nanti lagi ya.',
+  'Capek nih, coba sebentar lagi.',
+  'Kepala mumet, skip dulu.',
+  'Sedang istirahat, sabar ya.',
+  'Batre tipis, nanti aku jawab.',
+  'Mood jelek, coba ulang sebentar.',
+  'Lagi error, maaf ya.',
+  'Otak panas, butuh jeda.',
+  'Signal lemot, nanti nyusul.',
+  'Timeout mode, nanti lanjut.',
 ];
 
 const isRateLimited = (channelId: string) => {
@@ -18,10 +31,16 @@ const isRateLimited = (channelId: string) => {
   return false;
 };
 
+const replyBadMood = async (message: Message) => {
+  const pick = MOOD_REPLIES[Math.floor(Math.random() * MOOD_REPLIES.length)];
+  await message.reply(pick);
+};
+
 export const handleGroqChat = async (message: Message, ctx: AppContext) => {
   const { env, logger, client } = ctx;
   if (!env.GROQ_API_KEY) return;
   if (message.author.id === client.user?.id) return;
+  if (message.mentions.everyone) return;
   if (!message.mentions.has(client.user?.id ?? '')) return;
 
   const stripped = message.content.replace(/<@!?(\d+)>/g, '').trim();
@@ -30,6 +49,7 @@ export const handleGroqChat = async (message: Message, ctx: AppContext) => {
 
   if (isRateLimited(message.channel.id)) {
     logger.debug('Groq chat skipped due to rate limit', { channel: message.channel.id });
+    await replyBadMood(message);
     return;
   }
 
@@ -79,7 +99,9 @@ export const handleGroqChat = async (message: Message, ctx: AppContext) => {
       }
       if (res.status === 404) continue; // try next model
     }
+    await replyBadMood(message);
   } catch (err) {
     logger.warn('Groq chat failed', { err });
+    await replyBadMood(message);
   }
 };
