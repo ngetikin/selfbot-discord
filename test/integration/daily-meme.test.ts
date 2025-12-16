@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { Message } from 'discord.js-selfbot-v13';
 import { scheduleDailyMeme } from '../../src/features/daily-meme';
 import type { AppContext } from '../../src/core/context';
 
@@ -8,7 +9,8 @@ describe('daily meme scheduler', () => {
   const now = Date.now();
   vi.setSystemTime(now);
 
-  const sendMock = vi.fn();
+  type FakeMessage = Pick<Message, 'react'>;
+  const sendMock = vi.fn<[unknown?], Promise<FakeMessage>>();
   const ctx: AppContext = {
     env: {
       TOKEN: 'x',
@@ -53,7 +55,7 @@ describe('daily meme scheduler', () => {
 
   it('menandai @everyone dan react emoji acak ketika mengirim meme', async () => {
     const reactMock = vi.fn().mockResolvedValue(undefined);
-    const messageMock = { react: reactMock } as any; // guild undefined -> pakai default emoji
+    const messageMock: FakeMessage = { react: reactMock };
     sendMock.mockResolvedValueOnce(messageMock);
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -77,7 +79,7 @@ describe('daily meme scheduler', () => {
 
   it('sends once on debug now', async () => {
     const reactMock = vi.fn().mockResolvedValue(undefined);
-    sendMock.mockResolvedValueOnce({ react: reactMock } as any);
+    sendMock.mockResolvedValueOnce({ react: reactMock });
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ data: { url: 'http://x', title: 't' } }),

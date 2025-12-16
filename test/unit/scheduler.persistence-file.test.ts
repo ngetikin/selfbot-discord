@@ -1,16 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Scheduler } from '../../src/core/scheduler';
 import { restoreScheduler, startSchedulerPersistence } from '../../src/core/scheduler-persist';
+import type { StorageAdapter } from '../../src/core/storage/types';
 
 const makeStorage = () => {
   const readJson = vi.fn();
   const writeJson = vi.fn();
-  const storage = {
+  const storage: StorageAdapter = {
     readJson,
     writeJson,
     listKeys: vi.fn(),
     remove: vi.fn(),
-  } as any;
+  };
   return { storage, readJson, writeJson };
 };
 

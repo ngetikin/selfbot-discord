@@ -24,8 +24,9 @@
   "packageManager": "pnpm@10.15.0",
   "lint-staged": {
     "*.{ts,js}": [
-      "eslint . --ext .ts --fix",
-      "prettier --write \"**/*.{ts,js,json,md}\""
+      "eslint . --ext .ts",
+      "prettier --check \"**/*.{ts,js,json,md}\"",
+      "vitest run"
     ]
   },
   "dependencies": {
