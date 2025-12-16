@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { Message } from 'discord.js-selfbot-v13';
+import type { AppContext } from '../../src/core/context';
 
-const makeCtx = () => ({
+const makeCtx = (): AppContext => ({
   env: {
     TOKEN: 'x',
     VOICE_CHANNEL_ID: '1',
@@ -14,26 +16,27 @@ const makeCtx = () => ({
     RATE_PRESENCE_MIN: '5',
     RATE_VOICE_JOIN_SEC: '30',
   },
-  client: { user: { id: 'me' } } as any,
-  scheduler: {} as any,
-  storage: {} as any,
-  voice: {} as any,
+  client: { user: { id: 'me' } } as AppContext['client'],
+  scheduler: {} as AppContext['scheduler'],
+  storage: {} as AppContext['storage'],
+  voice: {} as AppContext['voice'],
   logger: {
     debug: vi.fn(),
     warn: vi.fn(),
-  } as any,
+  } as AppContext['logger'],
 });
 
-const makeMessage = () => {
+const makeMessage = (): Message => {
   const reply = vi.fn();
-  return {
+  const message = {
     content: '<@me> hello',
     channel: { id: 'chan' },
     reply: reply.mockResolvedValue(undefined),
     author: { bot: false },
     // discord.js-selfbot-v13 mention helper is different; we mimic minimal has()
     mentions: { has: (id: string) => id === 'me' },
-  } as any;
+  };
+  return message as unknown as Message;
 };
 
 describe('Groq chat handler', () => {
@@ -53,7 +56,7 @@ describe('Groq chat handler', () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ choices: [{ message: { content: 'hi' } }] }),
-    } as any);
+    } as unknown as Response);
 
     const { handleGroqChat } = await import('../../src/features/chat-groq');
 
@@ -70,11 +73,11 @@ describe('Groq chat handler', () => {
 
     global.fetch = vi
       .fn()
-      .mockResolvedValueOnce({ ok: false, status: 404 })
+      .mockResolvedValueOnce({ ok: false, status: 404 } as Response)
       .mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve({ choices: [{ message: { content: 'fallback' } }] }),
-      } as any);
+      } as unknown as Response);
 
     const { handleGroqChat } = await import('../../src/features/chat-groq');
 
@@ -87,7 +90,7 @@ describe('Groq chat handler', () => {
   it('mengabaikan pesan dari diri sendiri', async () => {
     const ctx = makeCtx();
     const message = makeMessage();
-    message.author = { id: 'me' } as any;
+    message.author = { id: 'me', bot: false } as Message['author'];
     const { handleGroqChat } = await import('../../src/features/chat-groq');
     global.fetch = vi.fn();
 

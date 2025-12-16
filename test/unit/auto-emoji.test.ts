@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { Collection } from 'discord.js-selfbot-v13';
+import { Collection, type GuildEmoji, type Message } from 'discord.js-selfbot-v13';
 import { handleAutoEmoji } from '../../src/features/auto-emoji';
 import type { AppContext } from '../../src/core/context';
 
@@ -16,13 +16,13 @@ const makeCtx = (): AppContext => ({
     RATE_PRESENCE_MIN: '5',
     RATE_VOICE_JOIN_SEC: '30',
   },
-  client: {} as any,
-  scheduler: {} as any,
-  storage: {} as any,
-  voice: {} as any,
+  client: {} as AppContext['client'],
+  scheduler: {} as AppContext['scheduler'],
+  storage: {} as AppContext['storage'],
+  voice: {} as AppContext['voice'],
   logger: {
     warn: vi.fn(),
-  } as any,
+  } as AppContext['logger'],
 });
 
 describe('auto emoji', () => {
@@ -43,27 +43,27 @@ describe('auto emoji', () => {
       channel: { id: 'other' },
       author: { bot: false },
       react,
-    } as any;
+    } satisfies Partial<Message>;
 
-    await handleAutoEmoji(message, makeCtx());
+    await handleAutoEmoji(message as Message, makeCtx());
     expect(react).not.toHaveBeenCalled();
   });
 
   it('reacts with guild non-animated emojis', async () => {
     const react = vi.fn().mockResolvedValue(undefined);
-    const cache = new Collection<string, any>();
-    cache.set('1', { animated: false, identifier: 'e1' });
-    cache.set('2', { animated: true, identifier: 'e2' });
-    cache.set('3', { animated: false, identifier: 'e3' });
+    const cache = new Collection<string, GuildEmoji>();
+    cache.set('1', { animated: false, identifier: 'e1' } as GuildEmoji);
+    cache.set('2', { animated: true, identifier: 'e2' } as GuildEmoji);
+    cache.set('3', { animated: false, identifier: 'e3' } as GuildEmoji);
 
     const message = {
       channel: { id: 'chan' },
       author: { bot: false },
       guild: { emojis: { cache } },
       react,
-    } as any;
+    } satisfies Partial<Message>;
 
-    await handleAutoEmoji(message, makeCtx());
+    await handleAutoEmoji(message as Message, makeCtx());
     expect(react).toHaveBeenCalledTimes(2); // only non-animated
   });
 
@@ -74,9 +74,9 @@ describe('auto emoji', () => {
       author: { bot: false },
       guild: undefined,
       react,
-    } as any;
+    } satisfies Partial<Message>;
 
-    await handleAutoEmoji(message, makeCtx());
+    await handleAutoEmoji(message as Message, makeCtx());
     expect(react).toHaveBeenCalledTimes(5); // deterministic count via Math.random mock
   });
 });

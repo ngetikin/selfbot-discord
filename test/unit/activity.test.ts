@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { AppContext } from '../../src/core/context';
 import { startActivityRotation } from '../../src/features/activity';
 
-const makeCtx = () => {
+const makeCtx = (): AppContext => {
   const setActivity = vi.fn();
   return {
     env: {
@@ -16,11 +17,11 @@ const makeCtx = () => {
       RATE_PRESENCE_MIN: '5',
       RATE_VOICE_JOIN_SEC: '30',
     },
-    client: { user: { setActivity } } as any,
-    scheduler: {} as any,
-    storage: {} as any,
-    voice: {} as any,
-    logger: { debug: vi.fn() } as any,
+    client: { user: { setActivity } },
+    scheduler: {} as AppContext['scheduler'],
+    storage: {} as AppContext['storage'],
+    voice: {} as AppContext['voice'],
+    logger: { debug: vi.fn() } as AppContext['logger'],
   };
 };
 
@@ -37,7 +38,7 @@ describe('activity rotation', () => {
   it('cycles activities every 5 minutes', () => {
     const ctx = makeCtx();
 
-    startActivityRotation(ctx as any);
+    startActivityRotation(ctx);
 
     expect(ctx.client.user.setActivity).toHaveBeenCalledTimes(1);
     expect(ctx.client.user.setActivity).toHaveBeenLastCalledWith({
