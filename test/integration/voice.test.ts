@@ -47,9 +47,11 @@ describe('voice service', () => {
   beforeEach(() => {
     mockJoin.mockResolvedValue(mockConnection);
     mockDisconnect.mockReset();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
@@ -59,5 +61,18 @@ describe('voice service', () => {
     voice.enqueue({ text: 'hi', lang: 'id-ID', channelId: 'chan' });
     await voice.join('chan');
     expect(mockJoin).toHaveBeenCalled();
+  });
+
+  it('auto leave setiap 30 menit dan join lagi setelah 1 menit', async () => {
+    const client = makeClient();
+    const voice = createVoiceService({ client, env, logger });
+    await voice.join('chan');
+    voice.init();
+
+    vi.advanceTimersByTime(30 * 60 * 1000);
+    expect(mockDisconnect).toHaveBeenCalledTimes(1);
+
+    vi.advanceTimersByTime(60 * 1000);
+    expect(mockJoin).toHaveBeenCalledTimes(2); // initial + rejoin
   });
 });

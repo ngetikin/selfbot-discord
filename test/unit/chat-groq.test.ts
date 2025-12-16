@@ -43,9 +43,11 @@ describe('Groq chat handler', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.resetModules();
+    vi.stubGlobal('fetch', vi.fn());
   });
 
   afterEach(() => {
+    vi.unstubAllGlobals?.();
     vi.useRealTimers();
     vi.restoreAllMocks();
   });
@@ -97,5 +99,41 @@ describe('Groq chat handler', () => {
     await handleGroqChat(message, ctx);
 
     expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it('mengabaikan mention massal @everyone/@here', async () => {
+    const ctx = makeCtx();
+    const message = makeMessage();
+    message.mentions.everyone = true as boolean;
+    const { handleGroqChat } = await import('../../src/features/chat-groq');
+    const fetchSpy = vi.spyOn(globalThis, 'fetch');
+
+    await handleGroqChat(message, ctx);
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('membalas mood saat rate limit', async () => {
+    const ctx = makeCtx();
+    const message = makeMessage();
+    const replySpy = vi.spyOn(message, 'reply');
+    const { handleGroqChat } = await import('../../src/features/chat-groq');
+    // pertama isi cache rate, kedua kena limit
+    await handleGroqChat(message, ctx);
+    replySpy.mockClear();
+    await handleGroqChat(message, ctx);
+    expect(replySpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('membalas mood saat API error', async () => {
+    const ctx = makeCtx();
+    const message = makeMessage();
+    const replySpy = vi.spyOn(message, 'reply');
+    global.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500 } as Response);
+    const { handleGroqChat } = await import('../../src/features/chat-groq');
+
+    await handleGroqChat(message, ctx);
+
+    expect(replySpy).toHaveBeenCalled();
   });
 });
